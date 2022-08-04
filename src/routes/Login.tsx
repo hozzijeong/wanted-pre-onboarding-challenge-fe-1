@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { validateEmail, validatePassword } from "../utility/validation";
 
 function Login() {
   const [email, setEmail] = useState<string>("");
@@ -24,7 +25,11 @@ function Login() {
         value={password}
         onChange={(e) => changeValue(e, setPassword)}
       />
-      <input type="submit" value="로그인" />
+      <input
+        type="submit"
+        value="로그인"
+        disabled={!validateEmail(email) || !validatePassword(password)}
+      />
     </form>
   );
 }
