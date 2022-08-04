@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./Login";
+import SignUp from "./SignUp";
 
 function URLRoutes() {
   return (
@@ -7,8 +9,8 @@ function URLRoutes() {
         <Route path="/todo">
           <Route path="/todo/:id" />
         </Route>
-        <Route path="/auth/login" />
-        <Route path="/auth/auth" />
+        <Route path="/auth/login" element={<Login />} />
+        <Route path="/auth/signup" element={<SignUp />} />
       </Routes>
     </BrowserRouter>
   );
