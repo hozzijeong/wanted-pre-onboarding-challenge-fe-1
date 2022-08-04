@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { loginAPI } from "../api/apis";
 import { validateEmail, validatePassword } from "../utility/validation";
 
 function Login() {
@@ -13,8 +14,15 @@ function Login() {
     fnc(value);
   };
 
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    loginAPI(email, password)
+      .then((data) => console.log(data))
+      .catch((e) => console.log(e));
+  };
+
   return (
-    <form method="post">
+    <form method="post" onSubmit={(e) => onSubmit(e)}>
       <input
         type="email"
         value={email}
