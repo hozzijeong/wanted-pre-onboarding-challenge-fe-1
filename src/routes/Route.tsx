@@ -3,11 +3,12 @@ import Login from "./Login";
 import SignUp from "./SignUp";
 
 function URLRoutes() {
+  // locaoStorage에서 토큰 값 확인 후, 만약에 유효하지 않다면 login화면으로 이동시킬 것.
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/todo">
-          <Route path="/todo/:id" />
+        <Route path="/">
+          <Route path="/:id" />
         </Route>
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/signup" element={<SignUp />} />
