@@ -21,7 +21,7 @@ function SignUp() {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    SignUpAPI(email, password).then((data) => {
+    SignUpAPI({ email, password }).then((data) => {
       if (data?.details) {
         alert(data.details);
       } else {

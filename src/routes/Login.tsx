@@ -21,7 +21,7 @@ function Login() {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    loginAPI(email, password).then((data) => {
+    loginAPI({ email, password }).then((data) => {
       if (data?.details) {
         alert(data.details);
       } else {

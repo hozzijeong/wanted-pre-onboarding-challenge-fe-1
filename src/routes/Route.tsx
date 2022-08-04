@@ -9,7 +9,7 @@ function URLRoutes() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Todos />}>
-          <Route path="/:id" />
+          <Route path="/details/:id" />
         </Route>
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/signup" element={<SignUp />} />
