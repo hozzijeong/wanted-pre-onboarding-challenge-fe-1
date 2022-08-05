@@ -40,7 +40,6 @@ export function getTodosDetail(token: string, id: string) {
 }
 
 export function createTodos(body: ITodo, token: string) {
-  console.log(body);
   return fetch(`${BASE_URL}/todos`, {
     method: "POST",
     headers: {

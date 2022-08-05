@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { createTodos, getTodosAPI } from "../api/apis";
-import { todosAtom } from "../atom";
+import { detailAtom, todosAtom } from "../atom";
 import TodoItem from "../components/TodoItem";
 import { ITodos } from "../utility/types";
+import TodoDetail from "./TodoDetail";
 
 interface IChangeValue {
   e: React.FormEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>;
@@ -15,7 +16,6 @@ function Todos() {
   const navigation = useNavigate();
   const token = localStorage.getItem("token");
   const [todos, setTodos] = useRecoilState<ITodos[]>(todosAtom);
-
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
 
@@ -70,6 +70,7 @@ function Todos() {
         <ul>{[...todos.map((x: ITodos) => <TodoItem key={x.id} {...x} />)]}</ul>
       </div>
       <hr />
+      <TodoDetail />
     </div>
   );
 }
