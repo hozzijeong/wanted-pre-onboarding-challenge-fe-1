@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import { createTodos, getTodosAPI } from "../api/apis";
+import { todosAtom } from "../atom";
 import TodoItem from "../components/TodoItem";
 import { ITodos } from "../utility/types";
 
@@ -12,7 +14,7 @@ interface IChangeValue {
 function Todos() {
   const navigation = useNavigate();
   const token = localStorage.getItem("token");
-  const [todos, setTodos] = useState<ITodos[]>([]);
+  const [todos, setTodos] = useRecoilState<ITodos[]>(todosAtom);
 
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
@@ -21,7 +23,6 @@ function Todos() {
     const { value } = e.currentTarget;
     fnc(value);
   };
-
   useEffect(() => {
     if (!token) navigation("/auth/login");
     else getTodosAPI(token).then((data) => setTodos(data.data));
