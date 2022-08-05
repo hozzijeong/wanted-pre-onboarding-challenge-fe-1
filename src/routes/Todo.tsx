@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createTodos, getTodosAPI } from "../api/apis";
+import TodoItem from "../components/TodoItem";
 import { ITodos } from "../utility/types";
 
 interface IChangeValue {
@@ -26,10 +27,9 @@ function Todos() {
     else getTodosAPI(token).then((data) => setTodos(data.data));
   }, [token]);
 
-  const onSubmit = (e: React.FormEvent<HTMLInputElement>) => {
+  const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     if (typeof token === "string") {
-      console.log(title, content);
       createTodos({ title, content }, token).then((data) => {
         if (data?.details) {
           alert(data.details);
@@ -46,41 +46,28 @@ function Todos() {
     <div>
       <h1>Tasks</h1>
       <div>
-        <table width="500" border={1}>
-          <thead>
-            <tr>
-              <th>Add Task</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <input
-                style={{ width: "98%" }}
-                type="text"
-                placeholder="type title"
-                value={title}
-                onChange={(e) => changeValue({ e, fnc: setTitle })}
-              />
-            </tr>
-            <tr aria-colspan={2} style={{ height: "100%" }}>
-              <textarea
-                style={{ height: "100%", width: "98%" }}
-                value={content}
-                onChange={(e) => changeValue({ e, fnc: setContent })}
-              ></textarea>
-            </tr>
-            <tr aria-colspan={2}>
-              <input
-                type="button"
-                value="추가하기"
-                onClick={(e) => onSubmit(e)}
-              />
-            </tr>
-          </tbody>
-        </table>
+        <h2>Add Task</h2>
+
+        <input
+          style={{ width: "98%" }}
+          type="text"
+          placeholder="type title"
+          value={title}
+          onChange={(e) => changeValue({ e, fnc: setTitle })}
+        />
+
+        <textarea
+          style={{ height: "100%", width: "98%" }}
+          value={content}
+          onChange={(e) => changeValue({ e, fnc: setContent })}
+        ></textarea>
+
+        <button onClick={(e) => onSubmit(e)}>추가하기</button>
       </div>
       <hr />
-      <ul>{[...todos.map((x) => <li>{x.title}</li>)]}</ul>
+      <div>
+        <ul>{[...todos.map((x: ITodos) => <TodoItem key={x.id} {...x} />)]}</ul>
+      </div>
       <hr />
     </div>
   );
