@@ -40,19 +40,22 @@ export function getTodosDetail(token: string, id: string) {
 }
 
 export function createTodos(body: ITodo, token: string) {
+  console.log(body);
   return fetch(`${BASE_URL}/todos`, {
     method: "POST",
     headers: {
+      "Content-Type": "application/json",
       Authorization: token,
     },
     body: JSON.stringify(body),
-  }).then((response) => response.json()); // create 하고 todos 업데이트 새로 할 것.
+  }).then((response) => response.json());
 }
 
 export function updateTodos(body: ITodo, token: string, id: string) {
   return fetch(`${BASE_URL}/todos/${id}`, {
     method: "PUT",
     headers: {
+      "Content-Type": "application/json",
       Authorization: token,
     },
     body: JSON.stringify(body),
