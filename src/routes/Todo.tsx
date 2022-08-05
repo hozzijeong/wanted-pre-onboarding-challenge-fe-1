@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { createTodos, getTodosAPI } from "../api/apis";
-import { detailAtom, todosAtom } from "../atom";
+import { todosAtom } from "../atom";
 import TodoItem from "../components/TodoItem";
+import { inputChangeHandler } from "../utility/handler";
 import { ITodos } from "../utility/types";
 import TodoDetail from "./TodoDetail";
-
-interface IChangeValue {
-  e: React.FormEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>;
-  fnc: React.Dispatch<React.SetStateAction<string>>;
-}
 
 function Todos() {
   const navigation = useNavigate();
@@ -19,10 +15,6 @@ function Todos() {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
 
-  const changeValue = ({ e, fnc }: IChangeValue) => {
-    const { value } = e.currentTarget;
-    fnc(value);
-  };
   useEffect(() => {
     if (!token) navigation("/auth/login");
     else getTodosAPI(token).then((data) => setTodos(data.data));
@@ -46,6 +38,7 @@ function Todos() {
   return (
     <div>
       <h1>Tasks</h1>
+      <button onClick={() => localStorage.removeItem("token")}>로그아웃</button>
       <div>
         <h2>Add Task</h2>
 
@@ -54,13 +47,13 @@ function Todos() {
           type="text"
           placeholder="type title"
           value={title}
-          onChange={(e) => changeValue({ e, fnc: setTitle })}
+          onChange={(e) => inputChangeHandler({ e, fnc: setTitle })}
         />
 
         <textarea
           style={{ height: "100%", width: "98%" }}
           value={content}
-          onChange={(e) => changeValue({ e, fnc: setContent })}
+          onChange={(e) => inputChangeHandler({ e, fnc: setContent })}
         ></textarea>
 
         <button onClick={(e) => onSubmit(e)}>추가하기</button>

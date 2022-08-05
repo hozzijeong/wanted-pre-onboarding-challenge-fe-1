@@ -12,8 +12,8 @@ export interface ITodos {
 }
 
 export interface ITodo {
-  title: string;
-  content: string;
+  title: string | undefined;
+  content: string | undefined;
 }
 
 export interface IAuth {

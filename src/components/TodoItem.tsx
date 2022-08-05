@@ -1,12 +1,12 @@
-import { Link } from "react-router-dom";
-import { useResetRecoilState, useSetRecoilState } from "recoil";
+import { Link, useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 import { deleteTodos, getTodosAPI, getTodosDetail } from "../api/apis";
 import { detailAtom, todosAtom } from "../atom";
 import { ITodos } from "../utility/types";
 
 function TodoItem(todo: ITodos) {
-  // 삭제하기 클릭 시 컴포넌트 삭제
   const token = localStorage.getItem("todo") as string;
+  const navigation = useNavigate();
   const setTodos = useSetRecoilState(todosAtom);
   const setDetails = useSetRecoilState<ITodos | null>(detailAtom);
 
@@ -19,16 +19,14 @@ function TodoItem(todo: ITodos) {
       .catch((e) => alert(e));
   };
 
-  const detailItem = () => {
-    getTodosDetail(token, todo.id).then((data) => setDetails(data.data)); // 사실 API로 안얻고 그냥 여기서 값만 얻어도 됨
-  };
-
   return (
     <li>
       <div>
         <span>{todo.title}</span>
         <button onClick={deleteItem}>삭제하기</button>
-        <button onClick={detailItem}>상세보기</button>
+        <Link to={`/details/${todo.id}`} state={{ id: todo.id }}>
+          상세보기
+        </Link>
       </div>
     </li>
   );
