@@ -10,7 +10,7 @@ import TodoDetail from "./TodoDetail";
 
 function Todos() {
   const navigation = useNavigate();
-  const token = localStorage.getItem("token");
+  const [token, setToken] = useState(localStorage.getItem("token"));
   const [todos, setTodos] = useRecoilState<ITodos[]>(todosAtom);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
@@ -35,10 +35,15 @@ function Todos() {
     }
   };
 
+  const logoutHandler = () => {
+    localStorage.removeItem("token");
+    setToken(null);
+  };
+
   return (
     <div>
       <h1>Tasks</h1>
-      <button onClick={() => localStorage.removeItem("token")}>로그아웃</button>
+      <button onClick={logoutHandler}>로그아웃</button>
       <div>
         <h2>Add Task</h2>
 

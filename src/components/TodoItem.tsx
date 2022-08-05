@@ -1,14 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { deleteTodos, getTodosAPI, getTodosDetail } from "../api/apis";
-import { detailAtom, todosAtom } from "../atom";
+import { deleteTodos, getTodosAPI } from "../api/apis";
+import { todosAtom } from "../atom";
 import { ITodos } from "../utility/types";
 
 function TodoItem(todo: ITodos) {
   const token = localStorage.getItem("todo") as string;
-  const navigation = useNavigate();
   const setTodos = useSetRecoilState(todosAtom);
-  const setDetails = useSetRecoilState<ITodos | null>(detailAtom);
 
   const deleteItem = () => {
     deleteTodos(token, todo.id)
@@ -24,7 +22,7 @@ function TodoItem(todo: ITodos) {
       <div>
         <span>{todo.title}</span>
         <button onClick={deleteItem}>삭제하기</button>
-        <Link to={`/details/${todo.id}`} state={{ id: todo.id }}>
+        <Link to={`/details/${todo.id}`} state={todo}>
           상세보기
         </Link>
       </div>
