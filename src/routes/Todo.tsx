@@ -17,7 +17,10 @@ function Todos() {
 
   useEffect(() => {
     if (!token) navigation("/auth/login");
-    else getTodosAPI(token).then((data) => setTodos(data.data));
+    else
+      getTodosAPI(token)
+        .then((data) => setTodos(data.data))
+        .catch((e) => console.log(e));
   }, [token]);
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

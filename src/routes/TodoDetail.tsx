@@ -10,19 +10,19 @@ function TodoDetail() {
   const location = useLocation();
   const state = location.state as ITodos;
   const token = localStorage.getItem("token") as string;
+  console.log(state);
 
   const setTodos = useSetRecoilState<ITodos[]>(todosAtom);
   const [isUpdated, setIsUpdated] = useState(false);
   const [detail, setDetail] = useRecoilState<ITodos | null>(detailAtom);
-  // 최초 render 되었을 대 detail 값이 undefined이고, 이에 따라 input에 설정되는 값이 undefined가 됨. 해당 값 변경을 해야 함.
-  const [title, setTitle] = useState(state.title);
-  const [content, setContent] = useState(state.content);
+  const [title, setTitle] = useState(state === null ? "" : state.title);
+  const [content, setContent] = useState(state === null ? "" : state.content);
 
   useEffect(() => {
     setIsUpdated(false);
     setDetail(state);
-    setTitle(state.title);
-    setContent(state.content);
+    setTitle(state === null ? "" : state.title);
+    setContent(state === null ? "" : state.content);
   }, [state]);
 
   const updateHandler = () => {
@@ -61,7 +61,7 @@ function TodoDetail() {
               }
             />
           ) : (
-            <span>{detail?.title}</span>
+            <span>{detail.title}</span>
           )}
         </label>
         <label>
@@ -79,7 +79,7 @@ function TodoDetail() {
               }
             />
           ) : (
-            <span>{detail?.content}</span>
+            <span>{detail.content}</span>
           )}
         </label>
       </div>
