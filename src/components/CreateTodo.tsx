@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { createTodos, getTodosAPI } from "../api/apis";
 import { todosAtom } from "../atom";
+import { useCreateTodos } from "../hooks/useCreateTodos";
+import { useGetTodos } from "../hooks/useGetTodos";
 import { inputChangeHandler } from "../utility/handler";
 import { ITodos } from "../utility/types";
 
@@ -24,6 +26,7 @@ function CreateTodo({ token }: ICreateTodo) {
         } else {
           setTitle("");
           setContent("");
+          setTodos((curVal) => [...curVal, data]);
           getTodosAPI(token).then((data) => setTodos(data.data));
         }
       });
