@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { createTodos, getTodosAPI } from "../api/apis";
 import { todosAtom } from "../atom";
 import CreateTodo from "../components/CreateTodo";
 import TodoItem from "../components/TodoItem";
-import { inputChangeHandler } from "../utility/handler";
+import { GetTodosHook } from "../hooks/GetTodosHook";
 import { ITodos } from "../utility/types";
 import TodoDetail from "./TodoDetail";
 
@@ -16,10 +15,7 @@ function Todos() {
 
   useEffect(() => {
     if (!token) navigation("/auth/login");
-    else
-      getTodosAPI(token)
-        .then((data) => setTodos(data.data))
-        .catch((e) => console.log(e));
+    else setTodos(GetTodosHook(token));
   }, [token]);
 
   const logoutHandler = () => {
