@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { updateTodos } from "../api/apis";
+import { getTodosAPI, updateTodos } from "../api/apis";
 import { detailAtom, todosAtom } from "../atom";
-import { GetTodosHook } from "../hooks/GetTodosHook";
 import { inputChangeHandler } from "../utility/handler";
 import { ITodos } from "../utility/types";
 import { checkStateNull } from "../utility/validation";
@@ -32,7 +31,7 @@ function TodoDetail() {
     if (isUpdated && detail) {
       updateTodos({ title, content }, token, detail.id)
         .then((data) => setDetail(data.data))
-        .then(() => setTodos(GetTodosHook(token)))
+        .then(() => getTodosAPI(token).then((data) => setTodos(data)))
         .finally(() => setIsUpdated(false));
     } else setIsUpdated(true);
   };

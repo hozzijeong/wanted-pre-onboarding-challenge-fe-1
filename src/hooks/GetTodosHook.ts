@@ -3,7 +3,7 @@ import { getTodosAPI } from "../api/apis";
 import { ITodos } from "../utility/types";
 
 export function GetTodosHook(token: string) {
-  const [todo, setTodo] = useState<ITodos[]>([]);
-  getTodosAPI(token).then((data) => setTodo(data));
+  let todo: ITodos[] = [];
+  getTodosAPI(token).then((data) => (todo = data));
   return todo;
 }

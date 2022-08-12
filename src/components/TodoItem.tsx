@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { deleteTodos, getTodosAPI } from "../api/apis";
 import { todosAtom } from "../atom";
-import { GetTodosHook } from "../hooks/GetTodosHook";
 import { ITodos } from "../utility/types";
 
 function TodoItem(todo: ITodos) {
@@ -12,7 +11,8 @@ function TodoItem(todo: ITodos) {
   const deleteItem = () => {
     deleteTodos(token, todo.id)
       .then((data) => {
-        if (data.data === null) setTodos(GetTodosHook(token));
+        if (data.data === null)
+          getTodosAPI(token).then((data) => setTodos(data));
       })
       .catch((e) => alert(e));
   };
