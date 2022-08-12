@@ -24,7 +24,7 @@ function CreateTodo({ token }: ICreateTodo) {
         } else {
           setTitle("");
           setContent("");
-          getTodosAPI(token).then((data) => setTodos(data));
+          getTodosAPI(token).then((data) => setTodos(data.data));
         }
       });
     }

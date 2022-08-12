@@ -1,64 +1,79 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { getTodosAPI, updateTodos } from "../api/apis";
+import { getTodosAPI, getTodosDetail, updateTodos } from "../api/apis";
 import { detailAtom, todosAtom } from "../atom";
 import { inputChangeHandler } from "../utility/handler";
 import { ITodos } from "../utility/types";
-import { checkStateNull } from "../utility/validation";
 
-function TodoDetail() {
+interface ITodoDetail {
+  token?: string | null;
+}
+
+function TodoDetail({ token }: ITodoDetail) {
   const location = useLocation();
-  const state = location.state as ITodos;
-  const token = localStorage.getItem("token") as string;
+  const id = location.pathname.split("/")[2];
+  const navigation = useNavigate();
 
   const setTodos = useSetRecoilState<ITodos[]>(todosAtom);
-  const [isUpdated, setIsUpdated] = useState(false);
+  const [isUpdateState, setIsUpdateState] = useState(false);
   const [detail, setDetail] = useRecoilState<ITodos | null>(detailAtom);
-  const [title, setTitle] = useState(checkStateNull(state) ? "" : state.title);
-  const [content, setContent] = useState(
-    checkStateNull(state) ? "" : state.content,
-  );
+  const [title, setTitle] = useState(detail === null ? "" : detail.title);
+  const [content, setContent] = useState(detail === null ? "" : detail.content);
 
   useEffect(() => {
-    setIsUpdated(false);
-    setDetail(state);
-    setTitle(checkStateNull(state) ? "" : state.title);
-    setContent(checkStateNull(state) ? "" : state.content);
-  }, [state]);
+    if (typeof id === "string" && typeof token === "string") {
+      getTodosDetail(token, id)
+        .then((data) => {
+          if (data?.detail) navigation("/");
+          setDetail(data.data);
+          setTitle(data.data.title);
+          setContent(data.data.content);
+        })
+        .catch((e) => new Error(e));
+    } else {
+      setDetail(null);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (detail === undefined || detail === null) navigation("/");
+  }, [detail]);
 
   const updateHandler = () => {
-    if (isUpdated && detail) {
+    if (isUpdateState && detail && typeof token === "string") {
       updateTodos({ title, content }, token, detail.id)
         .then((data) => setDetail(data.data))
-        .then(() => getTodosAPI(token).then((data) => setTodos(data)))
-        .finally(() => setIsUpdated(false));
-    } else setIsUpdated(true);
+        .then(() => getTodosAPI(token).then((data) => setTodos(data.data)))
+        .finally(() => setIsUpdateState(false));
+    } else setIsUpdateState(true);
   };
 
-  const cancleHandler = () => {
-    setTitle(state.title);
-    setContent(state.content);
-    setIsUpdated(false);
+  const cancleHandler = (detail: ITodos) => {
+    setTitle(detail.title);
+    setContent(detail.content);
+    setIsUpdateState(false);
   };
 
   return detail !== null ? (
     <div>
       <h2>상세 보기</h2>
       <button onClick={updateHandler}>
-        {isUpdated ? "제출하기" : "수정하기"}
+        {isUpdateState ? "제출하기" : "수정하기"}
       </button>
-      {isUpdated ? <button onClick={cancleHandler}>취소하기</button> : null}
+      {isUpdateState ? (
+        <button onClick={() => cancleHandler(detail)}>취소하기</button>
+      ) : null}
       <div>
         <label>
           Title:
-          {isUpdated ? (
+          {isUpdateState ? (
             <input
               value={title}
               onChange={(e) =>
                 inputChangeHandler({
                   e,
-                  fnc: setTitle as React.Dispatch<React.SetStateAction<string>>,
+                  fnc: setTitle,
                 })
               }
             />
@@ -68,15 +83,13 @@ function TodoDetail() {
         </label>
         <label>
           Content:
-          {isUpdated ? (
+          {isUpdateState ? (
             <input
               value={content}
               onChange={(e) =>
                 inputChangeHandler({
                   e,
-                  fnc: setContent as React.Dispatch<
-                    React.SetStateAction<string>
-                  >,
+                  fnc: setContent,
                 })
               }
             />

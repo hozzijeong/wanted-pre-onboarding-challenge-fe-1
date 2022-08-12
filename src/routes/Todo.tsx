@@ -14,8 +14,8 @@ function Todos() {
   const [todos, setTodos] = useRecoilState<ITodos[]>(todosAtom);
 
   useEffect(() => {
-    if (!token) navigation("/auth/login");
-    else getTodosAPI(token).then((data) => setTodos(data));
+    if (token === null) navigation("/auth/login");
+    else getTodosAPI(token).then((data) => setTodos(data.data));
   }, [token]);
 
   const logoutHandler = () => {
@@ -30,10 +30,16 @@ function Todos() {
       <CreateTodo token={token} />
       <hr />
       <div>
-        <ul>{[...todos.map((x: ITodos) => <TodoItem key={x.id} {...x} />)]}</ul>
+        <ul>
+          {[
+            ...todos.map((x: ITodos) => (
+              <TodoItem key={x.id} todo={x} token={token} />
+            )),
+          ]}
+        </ul>
       </div>
       <hr />
-      <TodoDetail />
+      <TodoDetail token={token} />
     </div>
   );
 }
