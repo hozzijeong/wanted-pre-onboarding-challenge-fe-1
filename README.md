@@ -45,4 +45,28 @@
 ## 파일 구조
 
 - src
-- component
+  - api
+    - apis.ts
+  - components
+    - CreateTodo.tsx
+    - Form.tsx
+    - TodoItem.tsx
+  - routes
+    - Login.tsx
+    - Route.tsx
+    - SignUp.tsx
+    - Todo.tsx
+    - TodoDetail.tsx
+  - utility
+    - handler.ts
+    - types.ts
+    - validation.ts
+
+## 1차 리팩토링 요구 사항
+
+1. TypeScript 적용
+
+- strict 옵션 적용
+- 타입 가드 및 타입 추론을 사용해 any, 타입 단언을 모두 없애기
+- 반복되는 타입은 제네릭, 타입 상속 / 합성 등으로 추상화
+- 보다 좁은 타입으로 정의 (ex. string → as const or union)
