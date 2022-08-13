@@ -9,25 +9,26 @@ interface IForm {
   api: (body: IAuth) => Promise<any>;
 }
 
-function Form({ category, api }: IForm) {
+function AuthForm({ category, api }: IForm) {
   const navigation = useNavigate();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+  const authSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    api({ email, password }).then((data) => {
-      if (data?.details) {
-        alert(data.details);
-      } else {
-        alert(data.message);
-        localStorage.setItem("token", data.token);
-        navigation("/");
-      }
-    });
+    const data = await api({ email, password });
+    if (data?.details) {
+      alert(data.details);
+    } else {
+      alert(data.message);
+      localStorage.setItem("token", data.token);
+      navigation("/");
+    }
   };
+
   return (
-    <form method="post" onSubmit={(e) => onSubmit(e)}>
+    <form method="post" onSubmit={(e) => authSubmitHandler(e)}>
       <input
         type="email"
         value={email}
@@ -47,4 +48,4 @@ function Form({ category, api }: IForm) {
   );
 }
 
-export default Form;
+export default AuthForm;

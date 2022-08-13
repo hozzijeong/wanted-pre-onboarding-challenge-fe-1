@@ -33,19 +33,24 @@ function TodoDetail({ token }: ITodoDetail) {
         .catch((e) => new Error(e));
     } else {
       setDetail(null);
+      navigation("/");
     }
   }, [id]);
 
-  useEffect(() => {
-    if (detail === undefined || detail === null) navigation("/");
-  }, [detail]);
-
-  const updateHandler = () => {
+  const updateHandler = async () => {
     if (isUpdateState && detail && typeof token === "string") {
-      updateTodos({ title, content }, token, detail.id)
-        .then((data) => setDetail(data.data))
-        .then(() => getTodosAPI(token).then((data) => setTodos(data.data)))
-        .finally(() => setIsUpdateState(false));
+      try {
+        const data = await updateTodos({ title, content }, token, detail.id);
+        setDetail(data.data);
+        setTodos((curVal) => [
+          ...curVal.filter((x) => x.id !== data.data.id),
+          data.data,
+        ]);
+      } catch (error) {
+        throw error;
+      } finally {
+        setIsUpdateState(false);
+      }
     } else setIsUpdateState(true);
   };
 

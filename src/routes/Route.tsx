@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import Todos from "./Todo";
@@ -12,6 +13,7 @@ function URLRoutes() {
         <Route path="/" element={<Todos />}>
           <Route path="/details/:id" element={<TodoDetail />} />
         </Route>
+
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/signup" element={<SignUp />} />
       </Routes>
