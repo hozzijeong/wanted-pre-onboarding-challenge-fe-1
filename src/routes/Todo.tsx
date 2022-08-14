@@ -13,10 +13,10 @@ function Todos() {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [todos, setTodos] = useRecoilState<ITodos[]>(todosAtom);
 
-  // useEffect(() => {
-  //   if (token === null) navigation("/auth/login");
-  //   else getTodosAPI(token).then((data) => setTodos(data.data));
-  // }, [token]);
+  useEffect(() => {
+    if (token === null) navigation("/auth/login");
+    else getTodosAPI(token).then((data) => setTodos(data.data));
+  }, [token]);
 
   const logoutHandler = () => {
     localStorage.removeItem("token");

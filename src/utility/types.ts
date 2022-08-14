@@ -1,6 +1,8 @@
 export interface AuthResult {
   message: string;
   token: string;
+
+  details: string;
 }
 
 export interface ITodos {

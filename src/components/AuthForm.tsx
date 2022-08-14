@@ -1,29 +1,26 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { inputChangeHandler } from "../utility/handler";
-import { IAuth } from "../utility/types";
+import { AuthResult, IAuth } from "../utility/types";
 import { validateEmail, validatePassword } from "../utility/validation";
 
 interface IForm {
   category: string;
-  api: (body: IAuth) => Promise<any>;
+  api: (body: IAuth) => Promise<AuthResult>;
+  fetcher: (data: AuthResult) => void;
 }
 
-function AuthForm({ category, api }: IForm) {
-  const navigation = useNavigate();
-
+function AuthForm({ category, api, fetcher }: IForm) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const authSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = await api({ email, password });
-    if (data?.details) {
-      alert(data.details);
-    } else {
-      alert(data.message);
-      localStorage.setItem("token", data.token);
-      navigation("/");
+    try {
+      const data = await api({ email, password });
+      console.log(data);
+      fetcher(data);
+    } catch (error) {
+      console.error(error);
     }
   };
 
