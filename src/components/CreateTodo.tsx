@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
-import { createTodos, getTodosAPI } from "../api/apis";
+import { createTodos } from "../api/apis";
 import { todosAtom } from "../atom";
-import { useCreateTodos } from "../hooks/useCreateTodos";
-import { useGetTodos } from "../hooks/useGetTodos";
+import { getCreateTodos } from "../api/getCreateTodos";
 import { inputChangeHandler } from "../utility/handler";
 import { ITodos } from "../utility/types";
 
@@ -20,7 +19,11 @@ function CreateTodo({ token }: ICreateTodo) {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (typeof token === "string") {
-      const data = await createTodos({ title, content }, token);
+      const params = {
+        body: { title, content },
+        token,
+      };
+      const data = await getCreateTodos(params);
       if (data?.details) {
         alert(data.details);
       } else {

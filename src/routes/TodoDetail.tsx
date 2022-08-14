@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { getTodosAPI, getTodosDetail, updateTodos } from "../api/apis";
+import { getTodosDetail, updateTodos } from "../api/apis";
 import { detailAtom, todosAtom } from "../atom";
 import Input from "../components/Input";
+import { getTodoDetails } from "../api/getTodoDetails";
 import { inputChangeHandler } from "../utility/handler";
 import { ITodos } from "../utility/types";
 
@@ -24,20 +25,15 @@ function TodoDetail({ token }: ITodoDetail) {
 
   useEffect(() => {
     if (typeof id === "string" && typeof token === "string") {
-      const setDetails = async () => {
-        try {
-          const data = await getTodosDetail(token, id);
-          if (data?.detail) navigation("./");
-          else {
-            setDetail(data.data);
-            setTitle(data.data.title);
-            setContent(data.data.content);
-          }
-        } catch (error) {
-          console.error(error);
+      const data = getTodoDetails({ token, id });
+      data.then((val) => {
+        if (val?.details) navigation("/");
+        else {
+          setDetail(val.data);
+          setTitle(val.data.title);
+          setContent(val.data.content);
         }
-      };
-      setDetails();
+      });
     } else {
       setDetail(null);
       navigation("/");

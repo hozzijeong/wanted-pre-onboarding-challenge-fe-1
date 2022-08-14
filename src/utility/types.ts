@@ -5,12 +5,21 @@ export interface AuthResult {
   details: string;
 }
 
+export interface DataResult {
+  data: ITodos;
+  details: string;
+}
+
 export interface ITodos {
   title: string;
   content: string;
   id: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface IFailAPIResult {
+  details: string;
 }
 
 export interface ITodo {

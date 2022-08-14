@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { getTodosAPI } from "../api/apis";
+import { getTodos } from "../api/getTodos";
 import { todosAtom } from "../atom";
 import CreateTodo from "../components/CreateTodo";
 import TodoItem from "../components/TodoItem";
@@ -14,8 +15,13 @@ function Todos() {
   const [todos, setTodos] = useRecoilState<ITodos[]>(todosAtom);
 
   useEffect(() => {
-    if (token === null) navigation("/auth/login");
-    else getTodosAPI(token).then((data) => setTodos(data.data));
+    if (typeof token === "string") {
+      const data = getTodos(token);
+      data.then((response) => {
+        if (response?.details) alert(response.details);
+        else setTodos(response.data);
+      });
+    } else navigation("/auth/login");
   }, [token]);
 
   const logoutHandler = () => {
