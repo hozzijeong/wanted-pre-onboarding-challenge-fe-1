@@ -2,6 +2,7 @@ import { useState } from "react";
 import { inputChangeHandler } from "../utility/handler";
 import { AuthResult, IAuth } from "../utility/types";
 import { validateEmail, validatePassword } from "../utility/validation";
+import Input from "./Input";
 
 interface IForm {
   category: string;
@@ -17,7 +18,6 @@ function AuthForm({ category, api, fetcher }: IForm) {
     e.preventDefault();
     try {
       const data = await api({ email, password });
-      console.log(data);
       fetcher(data);
     } catch (error) {
       console.error(error);
@@ -26,15 +26,17 @@ function AuthForm({ category, api, fetcher }: IForm) {
 
   return (
     <form method="post" onSubmit={(e) => authSubmitHandler(e)}>
-      <input
+      <Input
         type="email"
         value={email}
-        onChange={(e) => inputChangeHandler({ e, fnc: setEmail })}
+        changeHandler={inputChangeHandler}
+        fnc={setEmail}
       />
-      <input
+      <Input
         type="password"
         value={password}
-        onChange={(e) => inputChangeHandler({ e, fnc: setPassword })}
+        changeHandler={inputChangeHandler}
+        fnc={setPassword}
       />
       <input
         type="submit"

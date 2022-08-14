@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { getTodosAPI, getTodosDetail, updateTodos } from "../api/apis";
 import { detailAtom, todosAtom } from "../atom";
+import Input from "../components/Input";
 import { inputChangeHandler } from "../utility/handler";
 import { ITodos } from "../utility/types";
 
@@ -23,14 +24,20 @@ function TodoDetail({ token }: ITodoDetail) {
 
   useEffect(() => {
     if (typeof id === "string" && typeof token === "string") {
-      getTodosDetail(token, id)
-        .then((data) => {
-          if (data?.detail) navigation("/");
-          setDetail(data.data);
-          setTitle(data.data.title);
-          setContent(data.data.content);
-        })
-        .catch((e) => new Error(e));
+      const setDetails = async () => {
+        try {
+          const data = await getTodosDetail(token, id);
+          if (data?.detail) navigation("./");
+          else {
+            setDetail(data.data);
+            setTitle(data.data.title);
+            setContent(data.data.content);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      setDetails();
     } else {
       setDetail(null);
       navigation("/");
@@ -73,14 +80,10 @@ function TodoDetail({ token }: ITodoDetail) {
         <label>
           Title:
           {isUpdateState ? (
-            <input
+            <Input
               value={title}
-              onChange={(e) =>
-                inputChangeHandler({
-                  e,
-                  fnc: setTitle,
-                })
-              }
+              changeHandler={inputChangeHandler}
+              fnc={setTitle}
             />
           ) : (
             <span>{detail.title}</span>
@@ -89,14 +92,10 @@ function TodoDetail({ token }: ITodoDetail) {
         <label>
           Content:
           {isUpdateState ? (
-            <input
+            <Input
               value={content}
-              onChange={(e) =>
-                inputChangeHandler({
-                  e,
-                  fnc: setContent,
-                })
-              }
+              changeHandler={inputChangeHandler}
+              fnc={setContent}
             />
           ) : (
             <span>{detail.content}</span>

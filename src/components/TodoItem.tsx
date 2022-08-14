@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { deleteTodos, getTodosAPI } from "../api/apis";
+import { deleteTodos } from "../api/apis";
 import { todosAtom } from "../atom";
 import { ITodos } from "../utility/types";
 

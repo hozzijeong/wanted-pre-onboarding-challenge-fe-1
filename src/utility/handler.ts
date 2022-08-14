@@ -3,7 +3,7 @@ export interface IChangeValue {
   fnc: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const inputChangeHandler = ({ e, fnc }: IChangeValue) => {
+export const inputChangeHandler = ({ e, fnc }: IChangeValue): void => {
   const { value } = e.currentTarget;
   fnc(value);
 };
