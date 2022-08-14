@@ -15,18 +15,20 @@ function TodoItem({ todo, token }: ITodoItem) {
   const location = useLocation();
   const navigation = useNavigate();
 
-  const deleteItem = () => {
+  const deleteItem = async () => {
     if (typeof token === "string") {
-      deleteTodos(token, todo.id)
-        .then((data) => {
-          if (data.data === null) {
-            getTodosAPI(token).then((data) => setTodos(data.data));
-            if (location.pathname.split("/")[2] === todo.id) {
-              navigation("/");
-            }
-          }
-        })
-        .catch((e) => new Error(e));
+      try {
+        const data = await deleteTodos(token, todo.id);
+        if (data.data === null) {
+          const deleteId = location.pathname.split("/")[2];
+          setTodos((curTodos) => [
+            ...curTodos.filter((todo) => todo.id !== deleteId),
+          ]);
+          if (deleteId === todo.id) navigation("/");
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
