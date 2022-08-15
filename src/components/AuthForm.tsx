@@ -1,3 +1,4 @@
+import { UseMutationResult } from "@tanstack/react-query";
 import { useState } from "react";
 import { inputChangeHandler } from "../utility/handler";
 import { AuthResult, IAuth } from "../utility/types";
@@ -6,22 +7,16 @@ import Input from "./Input";
 
 interface IForm {
   category: string;
-  api: (body: IAuth) => Promise<AuthResult>;
-  fetcher: (data: AuthResult) => void;
+  api: UseMutationResult<AuthResult, unknown, IAuth, unknown>;
+  // fetcher: (data: AuthResult) => void;
 }
 
-function AuthForm({ category, api, fetcher }: IForm) {
+function AuthForm({ category, api }: IForm) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
   const authSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const data = await api({ email, password });
-      fetcher(data);
-    } catch (error) {
-      console.error(error);
-    }
+    api.mutate({ email, password });
   };
 
   return (

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { getTodosAPI } from "../api/apis";
 import { getTodos } from "../api/getTodos";
 import { todosAtom } from "../atom";
 import CreateTodo from "../components/CreateTodo";

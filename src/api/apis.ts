@@ -1,7 +1,7 @@
-import { IAuth, ITodo } from "../utility/types";
+import { AuthResult, IAuth, ITodo } from "../utility/types";
 const BASE_URL = "http://localhost:8080";
 
-export function loginAPI(body: IAuth) {
+export function loginAPI(body: IAuth): Promise<AuthResult> {
   return fetch(`${BASE_URL}/users/login`, {
     method: "POST",
     headers: {
@@ -11,7 +11,7 @@ export function loginAPI(body: IAuth) {
   }).then((response) => response.json());
 }
 
-export function SignUpAPI(body: IAuth) {
+export function SignUpAPI(body: IAuth): Promise<AuthResult> {
   return fetch(`${BASE_URL}/users/create`, {
     method: "POST",
     headers: {
