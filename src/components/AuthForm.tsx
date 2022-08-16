@@ -14,9 +14,10 @@ interface IForm {
 function AuthForm({ category, api }: IForm) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
   const authSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    api.mutate({ email, password });
+    await api.mutate({ email, password });
   };
 
   return (

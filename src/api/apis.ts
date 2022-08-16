@@ -1,4 +1,10 @@
-import { AuthResult, IAuth, ITodo } from "../utility/types";
+import {
+  AuthResult,
+  DataResult,
+  GetTodosResult,
+  IAuth,
+  ITodo,
+} from "../utility/types";
 const BASE_URL = "http://localhost:8080";
 
 export function loginAPI(body: IAuth): Promise<AuthResult> {
@@ -21,13 +27,13 @@ export function SignUpAPI(body: IAuth): Promise<AuthResult> {
   }).then((response) => response.json());
 }
 
-export function getTodosAPI(token: string) {
+export function getTodosAPI(token: string): Promise<Response> {
   return fetch(`${BASE_URL}/todos`, {
     method: "GET",
     headers: {
       Authorization: token,
     },
-  }).then((response) => response.json());
+  });
 }
 
 export function getTodosDetail(token: string, id: string) {

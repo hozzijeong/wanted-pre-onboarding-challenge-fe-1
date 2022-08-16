@@ -10,6 +10,11 @@ export interface DataResult {
   details: string;
 }
 
+export interface GetTodosResult {
+  data: ITodos[];
+  details: string;
+}
+
 export interface ITodos {
   title: string;
   content: string;

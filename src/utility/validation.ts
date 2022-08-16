@@ -13,3 +13,11 @@ export function validatePassword(password: string): boolean {
 export function checkStateNull(state: ITodos | null): boolean {
   return state === null;
 }
+
+export function checkToken() {
+  let data;
+  const token = localStorage.getItem("token");
+  if (typeof token !== "string") data = { status: false, token: "" };
+  else data = { status: true, token };
+  return data;
+}

@@ -6,12 +6,14 @@ interface ITodosResult {
   details: string;
 }
 
-export async function getTodos(token: string): Promise<ITodosResult> {
-  let data;
-  try {
-    data = await getTodosAPI(token);
-  } catch (e) {
-    console.error(e);
-  }
-  return data;
-}
+// export async function getTodos(token: string): Promise<ITodosResult> {
+//   let data;
+//   try {
+//     const response = await getTodosAPI(token);
+//     const temp = response.json();
+
+//   } catch (e) {
+//     console.error(e);
+//   }
+//   return data as ITodosResult;
+// }
