@@ -6,15 +6,12 @@ interface IGetDetails {
   id: string;
 }
 
-export const getTodoDetails = async ({
-  token,
-  id,
-}: IGetDetails): Promise<DataResult> => {
-  let data;
-  try {
-    data = await getTodosDetail(token, id);
-  } catch (error) {
-    console.error(error);
-  }
-  return data;
+export const getTodoDetails = async ({ token, id }: IGetDetails) => {
+  // let data;
+  // try {
+  //   data = await getTodosDetail(token, id);
+  // } catch (error) {
+  //   console.error(error);
+  // }
+  // return data;
 };

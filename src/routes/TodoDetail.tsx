@@ -7,6 +7,7 @@ import Input from "../components/Input";
 import { getTodoDetails } from "../api/getTodoDetails";
 import { inputChangeHandler } from "../utility/handler";
 import { ITodos } from "../utility/types";
+import useGetTodoDetail from "../hooks/useGetTodoDetail";
 
 interface ITodoDetail {
   token?: string | null;
@@ -23,17 +24,19 @@ function TodoDetail({ token }: ITodoDetail) {
   const [title, setTitle] = useState(detail === null ? "" : detail.title);
   const [content, setContent] = useState(detail === null ? "" : detail.content);
 
+  const state = useGetTodoDetail(getTodosDetail);
   useEffect(() => {
     if (typeof id === "string" && typeof token === "string") {
-      const data = getTodoDetails({ token, id });
-      data.then((val) => {
-        if (val?.details) navigation("/");
+      state.mutate({ id, token });
+      if (state.isSuccess) {
+        const { details, data } = state.data;
+        if (details) navigation("/");
         else {
-          setDetail(val.data);
-          setTitle(val.data.title);
-          setContent(val.data.content);
+          setDetail(data);
+          setTitle(data.title);
+          setContent(data.content);
         }
-      });
+      }
     } else {
       setDetail(null);
       navigation("/");

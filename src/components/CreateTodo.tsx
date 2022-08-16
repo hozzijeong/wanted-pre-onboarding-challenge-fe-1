@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
-import { createTodos } from "../api/apis";
 import { todosAtom } from "../atom";
 import { getCreateTodos } from "../api/getCreateTodos";
 import { inputChangeHandler } from "../utility/handler";
 import { ITodos } from "../utility/types";
+import useCreateTodo from "../hooks/useCreateTodo";
+import { createTodos } from "../api/apis";
 
 interface ICreateTodo {
   token: string | null;
@@ -13,8 +14,7 @@ interface ICreateTodo {
 function CreateTodo({ token }: ICreateTodo) {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
-
-  const setTodos = useSetRecoilState<ITodos[]>(todosAtom);
+  const createMutation = useCreateTodo(createTodos);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,14 +23,9 @@ function CreateTodo({ token }: ICreateTodo) {
         body: { title, content },
         token,
       };
-      const data = await getCreateTodos(params);
-      if (data?.details) {
-        alert(data.details);
-      } else {
-        setTitle("");
-        setContent("");
-        setTodos((curVal) => [...curVal, data.data]);
-      }
+      createMutation.mutate(params);
+      setTitle("");
+      setContent("");
     }
   };
 

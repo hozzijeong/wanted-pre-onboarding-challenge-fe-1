@@ -23,7 +23,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <URLRoutes />;
+      <URLRoutes />
     </QueryClientProvider>
   );
 }

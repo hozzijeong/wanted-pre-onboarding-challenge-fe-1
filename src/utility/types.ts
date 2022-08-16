@@ -36,3 +36,13 @@ export interface IAuth {
   email: string;
   password: string;
 }
+
+export interface ICreateTodos {
+  body: ITodo;
+  token: string;
+}
+
+export interface IGetDetailTodo {
+  id: string;
+  token: string;
+}
