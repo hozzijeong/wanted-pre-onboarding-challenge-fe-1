@@ -18,7 +18,7 @@ function useTokenStatus() {
       alert("유효하지 않은 토큰입니다.");
       navigation("/auth/login");
     }
-  }, [data.status]);
+  }, [data.status, navigation]);
 
   return data.token;
 }

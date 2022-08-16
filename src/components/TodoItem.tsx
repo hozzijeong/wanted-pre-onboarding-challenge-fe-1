@@ -1,7 +1,7 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { Link } from "react-router-dom";
 import { deleteTodos } from "../api/apis";
-import { todosAtom } from "../atom";
+import useDeleteTodo from "../hooks/useDeleteTodo";
+
 import { ITodos } from "../utility/types";
 
 interface ITodoItem {
@@ -11,24 +11,16 @@ interface ITodoItem {
 }
 
 function TodoItem({ todo, token }: ITodoItem) {
-  const setTodos = useSetRecoilState(todosAtom);
-  const location = useLocation();
-  const navigation = useNavigate();
+  const parmas = {
+    api: deleteTodos,
+    todo,
+  };
+  const mutation = useDeleteTodo(parmas);
 
-  const deleteItem = async () => {
+  const deleteHandler = () => {
     if (typeof token === "string") {
-      try {
-        const data = await deleteTodos(token, todo.id);
-        if (data.data === null) {
-          const deleteId = location.pathname.split("/")[2];
-          setTodos((curTodos) => [
-            ...curTodos.filter((todo) => todo.id !== deleteId),
-          ]);
-          if (deleteId === todo.id) navigation("/");
-        }
-      } catch (error) {
-        console.error(error);
-      }
+      mutation.mutate({ id: todo.id, token });
+      console.log(mutation);
     }
   };
 
@@ -36,7 +28,7 @@ function TodoItem({ todo, token }: ITodoItem) {
     <li>
       <div>
         <span>{todo.title}</span>
-        <button onClick={deleteItem}>삭제하기</button>
+        <button onClick={deleteHandler}>삭제하기</button>
         <Link to={`/details/${todo.id}`}>상세보기</Link>
       </div>
     </li>

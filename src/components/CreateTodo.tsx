@@ -1,9 +1,5 @@
 import { useState } from "react";
-import { useSetRecoilState } from "recoil";
-import { todosAtom } from "../atom";
-import { getCreateTodos } from "../api/getCreateTodos";
 import { inputChangeHandler } from "../utility/handler";
-import { ITodos } from "../utility/types";
 import useCreateTodo from "../hooks/useCreateTodo";
 import { createTodos } from "../api/apis";
 

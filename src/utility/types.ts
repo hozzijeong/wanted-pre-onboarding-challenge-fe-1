@@ -42,7 +42,7 @@ export interface ICreateTodos {
   token: string;
 }
 
-export interface IGetDetailTodo {
+export interface IGetTodoInfo {
   id: string;
   token: string;
 }

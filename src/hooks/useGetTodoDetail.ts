@@ -1,14 +1,19 @@
 import { useMutation } from "@tanstack/react-query";
-import { DataResult, IGetDetailTodo } from "../utility/types";
+import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { detailAtom } from "../atom";
+import { DataResult, IGetTodoInfo } from "../utility/types";
 
-function useGetTodoDetail(
-  api: (params: IGetDetailTodo) => Promise<DataResult>,
-) {
+function useGetTodoDetail(api: (params: IGetTodoInfo) => Promise<DataResult>) {
+  const navigation = useNavigate();
+  const setDetail = useSetRecoilState(detailAtom);
   const mutation = useMutation(api, {
-    onError: (error) => {
-      console.error(error);
+    onError: (error) => {},
+    onSuccess: (response: DataResult) => {
+      const { details, data } = response;
+      if (details) navigation("/");
+      else setDetail(data);
     },
-    onSuccess: (data: DataResult) => {},
   });
 
   return mutation;

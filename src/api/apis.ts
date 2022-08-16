@@ -1,10 +1,9 @@
 import {
   AuthResult,
   DataResult,
-  GetTodosResult,
   IAuth,
   ICreateTodos,
-  IGetDetailTodo,
+  IGetTodoInfo,
   ITodo,
 } from "../utility/types";
 const BASE_URL = "http://localhost:8080";
@@ -38,7 +37,10 @@ export function getTodosAPI(token: string): Promise<Response> {
   });
 }
 
-export function getTodosDetail({token, id}:IGetDetailTodo): Promise<DataResult> {
+export function getTodosDetail({
+  token,
+  id,
+}: IGetTodoInfo): Promise<DataResult> {
   return fetch(`${BASE_URL}/todos/${id}`, {
     method: "GET",
     headers: {
@@ -76,7 +78,7 @@ export function updateTodos(
   }).then((response) => response.json());
 }
 
-export function deleteTodos(token: string, id: string) {
+export function deleteTodos({ id, token }: IGetTodoInfo): Promise<any> {
   return fetch(`${BASE_URL}/todos/${id}`, {
     method: "DELETE",
     headers: {

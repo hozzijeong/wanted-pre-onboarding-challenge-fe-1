@@ -4,7 +4,6 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { getTodosDetail, updateTodos } from "../api/apis";
 import { detailAtom, todosAtom } from "../atom";
 import Input from "../components/Input";
-import { getTodoDetails } from "../api/getTodoDetails";
 import { inputChangeHandler } from "../utility/handler";
 import { ITodos } from "../utility/types";
 import useGetTodoDetail from "../hooks/useGetTodoDetail";
@@ -25,17 +24,14 @@ function TodoDetail({ token }: ITodoDetail) {
   const [content, setContent] = useState(detail === null ? "" : detail.content);
 
   const state = useGetTodoDetail(getTodosDetail);
+
   useEffect(() => {
     if (typeof id === "string" && typeof token === "string") {
       state.mutate({ id, token });
       if (state.isSuccess) {
-        const { details, data } = state.data;
-        if (details) navigation("/");
-        else {
-          setDetail(data);
-          setTitle(data.title);
-          setContent(data.content);
-        }
+        const { data } = state.data;
+        setTitle(data.title);
+        setContent(data.content);
       }
     } else {
       setDetail(null);

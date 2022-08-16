@@ -15,9 +15,7 @@ function App() {
           console.error(`에러가 났어요!!: ${error}`);
         }
       },
-      onSuccess: (data) => {
-        console.log(data);
-      },
+      onSuccess: (data) => {},
     }),
   });
 
