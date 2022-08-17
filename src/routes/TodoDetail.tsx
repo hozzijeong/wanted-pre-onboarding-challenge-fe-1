@@ -15,7 +15,9 @@ function TodoDetail() {
   const location = useLocation();
   const id = splitPathName(location.pathname)[2];
   const token = useGetToken();
-
+  const options = {
+    onSuccess: (response: DataResult) => updateData(response, setTodos),
+  };
   const setTodos = useSetRecoilState(todosAtom);
   const { data } = useGetTodoDetail(id, token);
   const [isUpdateState, setIsUpdateState] = useState(false);
@@ -23,25 +25,25 @@ function TodoDetail() {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
 
-  const updateMutation = useUpdateTodo(updateTodos, {
-    onSuccess: (response: DataResult) => {
-      const { details, data } = response;
-      if (details) alert(details);
-      else {
-        setTodos((curVal) =>
-          [...curVal].map((x) => (x.id === data.id ? data : x)),
-        );
-        setDetail(data);
-      }
-    },
-  });
+  const updateMutation = useUpdateTodo(updateTodos, options);
+
+  const updateData = (
+    response: DataResult,
+    fn?: (valOrUpdater: ITodos[] | ((currVal: ITodos[]) => ITodos[])) => void,
+  ) => {
+    const { details, data } = response;
+    if (details) alert(details);
+    else {
+      if (fn)
+        fn((curVal) => [...curVal].map((x) => (x.id === data.id ? data : x)));
+      setDetail(data);
+      setTitle(data.title);
+      setContent(data.content);
+    }
+  };
 
   useEffect(() => {
-    if (data) {
-      setDetail(data.data);
-      setTitle(data.data.title);
-      setContent(data.data.content);
-    }
+    if (data) updateData(data);
   }, [data]);
 
   const updateHandler = async () => {
@@ -55,7 +57,6 @@ function TodoDetail() {
         },
       };
       updateMutation.mutate(params);
-
       setIsUpdateState(false);
     } else setIsUpdateState(true);
   };
