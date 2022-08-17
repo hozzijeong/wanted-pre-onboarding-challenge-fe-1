@@ -1,29 +1,46 @@
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { updateTodos } from "../api/apis";
-import { detailAtom } from "../atom";
+import { detailAtom, todosAtom } from "../atom";
 import Input from "../components/Input";
 import { inputChangeHandler } from "../utility/handler";
-import { ITodos, IUpdateTodoParams } from "../utility/types";
+import { DataResult, ITodos, IUpdateTodoParams } from "../utility/types";
 import useUpdateTodo from "../hooks/useUpdateTodo";
+import useGetTodoDetail from "../hooks/useGetTodoDetail";
+import { useLocation } from "react-router-dom";
+import { splitPathName } from "../utility/getPathName";
+import useGetToken from "../hooks/useGetToken";
 
-interface ITodoDetail {
-  token?: string | null;
-  data?: ITodos | undefined;
-}
+function TodoDetail() {
+  const location = useLocation();
+  const id = splitPathName(location.pathname)[2];
+  const token = useGetToken();
 
-function TodoDetail({ token, data }: ITodoDetail) {
+  const setTodos = useSetRecoilState(todosAtom);
+  const { data } = useGetTodoDetail(id, token);
   const [isUpdateState, setIsUpdateState] = useState(false);
   const [detail, setDetail] = useRecoilState<ITodos | null>(detailAtom);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
-  const updateMutation = useUpdateTodo(updateTodos);
+
+  const updateMutation = useUpdateTodo(updateTodos, {
+    onSuccess: (response: DataResult) => {
+      const { details, data } = response;
+      if (details) alert(details);
+      else {
+        setTodos((curVal) =>
+          [...curVal].map((x) => (x.id === data.id ? data : x)),
+        );
+        setDetail(data);
+      }
+    },
+  });
 
   useEffect(() => {
     if (data) {
-      setDetail(data);
-      setTitle(data.title);
-      setContent(data.content);
+      setDetail(data.data);
+      setTitle(data.data.title);
+      setContent(data.data.content);
     }
   }, [data]);
 

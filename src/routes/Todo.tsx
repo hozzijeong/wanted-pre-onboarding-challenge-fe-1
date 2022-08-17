@@ -4,8 +4,7 @@ import { useRecoilState } from "recoil";
 import { todosAtom } from "../atom";
 import CreateTodo from "../components/CreateTodo";
 import TodoList from "../components/TodoList";
-import useTokenStatus from "../hooks/useCheckToken";
-import useGetTodoDetail from "../hooks/useGetTodoDetail";
+import useGetToken from "../hooks/useGetToken";
 import useGetTodos from "../hooks/useGetTodos";
 import { splitPathName } from "../utility/getPathName";
 import { ITodos } from "../utility/types";
@@ -13,14 +12,12 @@ import TodoDetail from "./TodoDetail";
 
 function Todos() {
   const navigation = useNavigate();
-  const token = useTokenStatus();
+  const token = useGetToken();
   const [todos, setTodos] = useRecoilState<ITodos[]>(todosAtom);
 
   const getTodo = useGetTodos();
   const location = useLocation();
   const id = splitPathName(location.pathname)[2];
-
-  const { data } = useGetTodoDetail(id, token);
 
   useEffect(() => {
     if (getTodo) {
@@ -42,7 +39,7 @@ function Todos() {
       <hr />
       <TodoList todos={todos} />
       <hr />
-      {id === undefined ? null : <TodoDetail token={token} data={data?.data} />}
+      {id && <TodoDetail />}
     </div>
   );
 }

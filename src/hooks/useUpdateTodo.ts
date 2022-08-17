@@ -1,28 +1,11 @@
-import { useMutation } from "@tanstack/react-query";
-import { useSetRecoilState } from "recoil";
-import { detailAtom, todosAtom } from "../atom";
+import { MutationOptions, useMutation } from "@tanstack/react-query";
 import { DataResult, IUpdateTodoParams } from "../utility/types";
 
 function useUpdateTodo(
   api: (params: IUpdateTodoParams) => Promise<DataResult>,
+  options: MutationOptions<DataResult, unknown, IUpdateTodoParams, unknown>,
 ) {
-  const setTodos = useSetRecoilState(todosAtom);
-  const setDetail = useSetRecoilState(detailAtom);
-  const mutation = useMutation(api, {
-    onError: (error) => {
-      console.error(error);
-    },
-    onSuccess: (response: DataResult) => {
-      const { details, data } = response;
-      if (details) alert(details);
-      else {
-        setTodos((curVal) =>
-          [...curVal].map((x) => (x.id === data.id ? data : x)),
-        );
-        setDetail(data);
-      }
-    },
-  });
+  const mutation = useMutation(api, options);
 
   return mutation;
 }

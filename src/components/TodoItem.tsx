@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { deleteTodos } from "../api/apis";
-import useTokenStatus from "../hooks/useCheckToken";
+import useGetToken from "../hooks/useGetToken";
 import useDeleteTodo from "../hooks/useDeleteTodo";
 
 import { ITodos } from "../utility/types";
@@ -15,7 +15,7 @@ function TodoItem({ todo }: ITodoItem) {
     api: deleteTodos,
     todo,
   };
-  const token = useTokenStatus();
+  const token = useGetToken();
   const mutation = useDeleteTodo(parmas);
 
   const deleteHandler = () => {

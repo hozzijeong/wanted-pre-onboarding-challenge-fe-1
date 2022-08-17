@@ -6,7 +6,7 @@ interface ITokenStatus {
   token: string;
 }
 
-function useTokenStatus() {
+function useGetToken() {
   let data: ITokenStatus;
   const navigation = useNavigate();
   const token = localStorage.getItem("token");
@@ -23,4 +23,4 @@ function useTokenStatus() {
   return data.token;
 }
 
-export default useTokenStatus;
+export default useGetToken;
