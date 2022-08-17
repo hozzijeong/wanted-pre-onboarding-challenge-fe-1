@@ -1,4 +1,3 @@
-import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { SignUpAPI } from "../api/apis";
 import Form from "../components/AuthForm";

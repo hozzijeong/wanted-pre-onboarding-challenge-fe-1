@@ -1,6 +1,5 @@
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useSetRecoilState } from "recoil";
-import { getTodosAPI } from "../api/apis";
 import { detailAtom, todosAtom } from "../atom";
 import { DataResult, IUpdateTodoParams } from "../utility/types";
 
@@ -9,8 +8,6 @@ function useUpdateTodo(
 ) {
   const setTodos = useSetRecoilState(todosAtom);
   const setDetail = useSetRecoilState(detailAtom);
-  const queryClient = new QueryClient();
-
   const mutation = useMutation(api, {
     onError: (error) => {
       console.error(error);
@@ -23,7 +20,6 @@ function useUpdateTodo(
           [...curVal].map((x) => (x.id === data.id ? data : x)),
         );
         setDetail(data);
-        queryClient.invalidateQueries();
       }
     },
   });

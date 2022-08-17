@@ -27,7 +27,7 @@ function CreateTodo({ token }: ICreateTodo) {
 
   return (
     <div>
-      <h2>Add Task</h2>
+      <h1>Add Task</h1>
       <form onSubmit={(e) => onSubmit(e)}>
         <input
           style={{ width: "98%" }}

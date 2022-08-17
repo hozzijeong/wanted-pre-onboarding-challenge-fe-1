@@ -1,12 +1,10 @@
-import { useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import Todos from "./Todo";
 import TodoDetail from "./TodoDetail";
 
 function URLRoutes() {
-  // locaoStorage에서 토큰 값 확인 후, 만약에 유효하지 않다면 login화면으로 이동시킬 것.
   return (
     <BrowserRouter>
       <Routes>

@@ -7,6 +7,7 @@ interface ITodoList {
 function TodoList({ todos }: ITodoList) {
   return (
     <div>
+      <h1>TodoList</h1>
       <ul>{[...todos.map((x: ITodos) => <TodoItem key={x.id} todo={x} />)]}</ul>
     </div>
   );
