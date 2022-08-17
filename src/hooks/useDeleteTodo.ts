@@ -21,7 +21,6 @@ function useDeleteTodo({ api, todo }: IuseDeleteTodo) {
     },
     onSuccess: () => {
       const deleteId = splitPathName(location.pathname)[2];
-      console.log(deleteId);
       setTodos((curTodos) => [...curTodos.filter((x) => x.id !== todo.id)]);
       if (deleteId === todo.id) navigation("/");
     },

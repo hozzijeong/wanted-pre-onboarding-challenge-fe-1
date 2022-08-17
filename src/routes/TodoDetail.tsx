@@ -5,54 +5,49 @@ import { getTodosDetail, updateTodos } from "../api/apis";
 import { detailAtom, todosAtom } from "../atom";
 import Input from "../components/Input";
 import { inputChangeHandler } from "../utility/handler";
-import { ITodos } from "../utility/types";
+import { ITodos, IUpdateTodoParams } from "../utility/types";
 import useGetTodoDetail from "../hooks/useGetTodoDetail";
+import useUpdateTodo from "../hooks/useUpdateTodo";
 
 interface ITodoDetail {
   token?: string | null;
+  data?: ITodos | undefined;
 }
 
-function TodoDetail({ token }: ITodoDetail) {
+function TodoDetail({ token, data }: ITodoDetail) {
   const location = useLocation();
-  const id = location.pathname.split("/")[2];
   const navigation = useNavigate();
 
-  const setTodos = useSetRecoilState<ITodos[]>(todosAtom);
   const [isUpdateState, setIsUpdateState] = useState(false);
   const [detail, setDetail] = useRecoilState<ITodos | null>(detailAtom);
-  const [title, setTitle] = useState(detail === null ? "" : detail.title);
-  const [content, setContent] = useState(detail === null ? "" : detail.content);
-
-  const state = useGetTodoDetail(getTodosDetail);
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
 
   useEffect(() => {
-    if (typeof id === "string" && typeof token === "string") {
-      state.mutate({ id, token });
-      if (state.isSuccess) {
-        const { data } = state.data;
-        setTitle(data.title);
-        setContent(data.content);
-      }
-    } else {
-      setDetail(null);
-      navigation("/");
+    if (data) {
+      setDetail(data);
+      setTitle(data.title);
+      setContent(data.content);
     }
-  }, [id]);
+  }, [data]);
+
+  const updateMutation = useUpdateTodo(updateTodos);
+  // 비동기 처리가 아직 되지 않아서 이전 값이 나타남. 비동기 처리시 한꺼번에 처리되도록 설정하기.
+  // onMount될 때 useEffect가 실행되는데, 그 전에 이루어졌으면 좋겠음. 비동기로.
 
   const updateHandler = async () => {
     if (isUpdateState && detail && typeof token === "string") {
-      try {
-        const data = await updateTodos({ title, content }, token, detail.id);
-        setDetail(data.data);
-        setTodos((curVal) => [
-          ...curVal.filter((x) => x.id !== data.data.id),
-          data.data,
-        ]);
-      } catch (error) {
-        throw error;
-      } finally {
-        setIsUpdateState(false);
-      }
+      const params: IUpdateTodoParams = {
+        id: detail.id,
+        token,
+        body: {
+          title,
+          content,
+        },
+      };
+      updateMutation.mutate(params);
+
+      setIsUpdateState(false);
     } else setIsUpdateState(true);
   };
 
@@ -81,7 +76,7 @@ function TodoDetail({ token }: ITodoDetail) {
               fnc={setTitle}
             />
           ) : (
-            <span>{detail.title}</span>
+            <span>{title}</span>
           )}
         </label>
         <label>
@@ -93,7 +88,7 @@ function TodoDetail({ token }: ITodoDetail) {
               fnc={setContent}
             />
           ) : (
-            <span>{detail.content}</span>
+            <span>{content}</span>
           )}
         </label>
       </div>

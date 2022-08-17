@@ -11,7 +11,7 @@ interface ITodosResult {
 
 function useGetTodos() {
   const token = useTokenStatus();
-  const query = useQuery(["todos"], async (): Promise<ITodosResult> => {
+  const query = useQuery(["todos", "all"], async (): Promise<ITodosResult> => {
     const response = await getTodosAPI(token);
     if (!response.ok) throw new Error("Network response was not ok");
     return response.json();

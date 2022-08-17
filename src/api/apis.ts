@@ -5,6 +5,7 @@ import {
   ICreateTodos,
   IGetTodoInfo,
   ITodo,
+  IUpdateTodoParams,
 } from "../utility/types";
 const BASE_URL = "http://localhost:8080";
 
@@ -63,11 +64,11 @@ export function createTodos({
   }).then((response) => response.json());
 }
 
-export function updateTodos(
-  body: ITodo,
-  token: string,
-  id: string,
-): Promise<DataResult> {
+export function updateTodos({
+  body,
+  token,
+  id,
+}: IUpdateTodoParams): Promise<DataResult> {
   return fetch(`${BASE_URL}/todos/${id}`, {
     method: "PUT",
     headers: {

@@ -15,9 +15,7 @@ export interface GetTodosResult {
   details: string;
 }
 
-export interface ITodos {
-  title: string;
-  content: string;
+export interface ITodos extends ITodo {
   id: string;
   createdAt: string;
   updatedAt: string;
@@ -28,8 +26,8 @@ export interface IFailAPIResult {
 }
 
 export interface ITodo {
-  title: string | undefined;
-  content: string | undefined;
+  title: string;
+  content: string;
 }
 
 export interface IAuth {
@@ -45,4 +43,8 @@ export interface ICreateTodos {
 export interface IGetTodoInfo {
   id: string;
   token: string;
+}
+
+export interface IUpdateTodoParams extends IGetTodoInfo {
+  body: ITodo;
 }

@@ -20,7 +20,6 @@ function TodoItem({ todo, token }: ITodoItem) {
   const deleteHandler = () => {
     if (typeof token === "string") {
       mutation.mutate({ id: todo.id, token });
-      console.log(mutation);
     }
   };
 

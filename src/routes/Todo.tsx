@@ -1,11 +1,13 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { todosAtom } from "../atom";
 import CreateTodo from "../components/CreateTodo";
 import TodoItem from "../components/TodoItem";
 import useTokenStatus from "../hooks/useCheckToken";
+import useGetTodoDetail from "../hooks/useGetTodoDetail";
 import useGetTodos from "../hooks/useGetTodos";
+import { splitPathName } from "../utility/getPathName";
 import { ITodos } from "../utility/types";
 import TodoDetail from "./TodoDetail";
 
@@ -13,7 +15,12 @@ function Todos() {
   const navigation = useNavigate();
   const token = useTokenStatus();
   const [todos, setTodos] = useRecoilState<ITodos[]>(todosAtom);
+
   const getTodo = useGetTodos();
+  const location = useLocation();
+  const id = splitPathName(location.pathname)[2];
+
+  const { data } = useGetTodoDetail(id, token);
 
   useEffect(() => {
     if (getTodo) {
@@ -43,7 +50,7 @@ function Todos() {
         </ul>
       </div>
       <hr />
-      <TodoDetail token={token} />
+      {id === undefined ? null : <TodoDetail token={token} data={data?.data} />}
     </div>
   );
 }
