@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { getTodosDetail, updateTodos } from "../api/apis";
-import { detailAtom, todosAtom } from "../atom";
+import { useRecoilState } from "recoil";
+import { updateTodos } from "../api/apis";
+import { detailAtom } from "../atom";
 import Input from "../components/Input";
 import { inputChangeHandler } from "../utility/handler";
 import { ITodos, IUpdateTodoParams } from "../utility/types";
-import useGetTodoDetail from "../hooks/useGetTodoDetail";
 import useUpdateTodo from "../hooks/useUpdateTodo";
 
 interface ITodoDetail {
@@ -15,13 +13,11 @@ interface ITodoDetail {
 }
 
 function TodoDetail({ token, data }: ITodoDetail) {
-  const location = useLocation();
-  const navigation = useNavigate();
-
   const [isUpdateState, setIsUpdateState] = useState(false);
   const [detail, setDetail] = useRecoilState<ITodos | null>(detailAtom);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
+  const updateMutation = useUpdateTodo(updateTodos);
 
   useEffect(() => {
     if (data) {
@@ -30,10 +26,6 @@ function TodoDetail({ token, data }: ITodoDetail) {
       setContent(data.content);
     }
   }, [data]);
-
-  const updateMutation = useUpdateTodo(updateTodos);
-  // 비동기 처리가 아직 되지 않아서 이전 값이 나타남. 비동기 처리시 한꺼번에 처리되도록 설정하기.
-  // onMount될 때 useEffect가 실행되는데, 그 전에 이루어졌으면 좋겠음. 비동기로.
 
   const updateHandler = async () => {
     if (isUpdateState && detail && typeof token === "string") {

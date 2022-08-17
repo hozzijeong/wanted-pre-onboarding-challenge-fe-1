@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { todosAtom } from "../atom";
 import CreateTodo from "../components/CreateTodo";
-import TodoItem from "../components/TodoItem";
+import TodoList from "../components/TodoList";
 import useTokenStatus from "../hooks/useCheckToken";
 import useGetTodoDetail from "../hooks/useGetTodoDetail";
 import useGetTodos from "../hooks/useGetTodos";
@@ -40,15 +40,7 @@ function Todos() {
       <button onClick={logoutHandler}>로그아웃</button>
       <CreateTodo token={token} />
       <hr />
-      <div>
-        <ul>
-          {[
-            ...todos.map((x: ITodos) => (
-              <TodoItem key={x.id} todo={x} token={token} />
-            )),
-          ]}
-        </ul>
-      </div>
+      <TodoList todos={todos} />
       <hr />
       {id === undefined ? null : <TodoDetail token={token} data={data?.data} />}
     </div>
