@@ -8,3 +8,10 @@ export const initialResultData = {
   },
   details: "",
 };
+
+export const initialAuthData = {
+  message: "",
+  token: "",
+
+  details: "",
+};

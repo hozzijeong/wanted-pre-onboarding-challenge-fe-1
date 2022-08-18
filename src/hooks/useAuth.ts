@@ -1,14 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { initialAuthData } from "../utility/initialData";
 import { AuthResult, IAuth } from "../utility/types";
 
 function useAuth(api: (body: IAuth) => Promise<AuthResult>) {
   const navigation = useNavigate();
-
-  const authMutation = useMutation(api, {
-    onError: (error) => {
-      console.error(error);
-    },
+  const options = {
     onSuccess: (data: AuthResult) => {
       if (data?.details) {
         alert(data.details);
@@ -18,7 +15,9 @@ function useAuth(api: (body: IAuth) => Promise<AuthResult>) {
         navigation("/");
       }
     },
-  });
+    initialData: initialAuthData,
+  };
+  const authMutation = useMutation(api, options);
 
   return authMutation;
 }
