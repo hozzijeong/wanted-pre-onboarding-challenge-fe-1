@@ -4,7 +4,6 @@ import {
   IAuth,
   ICreateTodos,
   IGetTodoInfo,
-  ITodo,
   IUpdateTodoParams,
 } from "../utility/types";
 const BASE_URL = "http://localhost:8080";
