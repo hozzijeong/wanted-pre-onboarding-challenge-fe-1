@@ -1,4 +1,4 @@
-import { IChangeValue } from "../utility/handler";
+import { IChangeValue } from "../../utility/handler";
 
 interface IInputProps {
   type?: string;

@@ -1,12 +1,12 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { deleteTodos } from "../api/apis";
-import useGetToken from "../hooks/useGetToken";
-import useDeleteTodo from "../hooks/useDeleteTodo";
+import { deleteTodos } from "../../api/apis";
+import useGetToken from "../../hooks/useGetToken";
+import useDeleteTodo from "../../hooks/useDeleteTodo";
 
-import { ITodos } from "../utility/types";
-import { splitPathName } from "../utility/getPathName";
+import { ITodos } from "../../utility/types";
+import { splitPathName } from "../../utility/getPathName";
 import { useSetRecoilState } from "recoil";
-import { todosAtom } from "../atom";
+import { todosAtom } from "../../atom";
 
 interface ITodoItem {
   key: string;

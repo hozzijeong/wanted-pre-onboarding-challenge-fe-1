@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { updateTodos } from "../api/apis";
 import { detailAtom, todosAtom } from "../atom";
-import Input from "../components/Input";
+import Input from "../components/Utility/Input";
 import { inputChangeHandler } from "../utility/handler";
 import { DataResult, ITodos, IUpdateTodoParams } from "../utility/types";
 import useUpdateTodo from "../hooks/useUpdateTodo";

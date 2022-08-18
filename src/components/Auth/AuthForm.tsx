@@ -1,9 +1,9 @@
 import { UseMutationResult } from "@tanstack/react-query";
 import { useState } from "react";
-import { inputChangeHandler } from "../utility/handler";
-import { AuthResult, IAuth } from "../utility/types";
-import { validateEmail, validatePassword } from "../utility/validation";
-import Input from "./Input";
+import { inputChangeHandler } from "../../utility/handler";
+import { AuthResult, IAuth } from "../../utility/types";
+import { validateEmail, validatePassword } from "../../utility/validation";
+import Input from "../Utility/Input";
 
 interface IForm {
   category: string;

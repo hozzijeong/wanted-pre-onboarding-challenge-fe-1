@@ -1,4 +1,4 @@
-import { ITodos } from "../utility/types";
+import { ITodos } from "../../utility/types";
 import TodoItem from "./TodoItem";
 
 interface ITodoList {

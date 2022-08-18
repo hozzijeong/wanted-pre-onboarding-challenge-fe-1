@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./Login";
-import SignUp from "./SignUp";
-import Todos from "./Todo";
-import TodoDetail from "./TodoDetail";
+import Login from "./Auth/Login";
+import SignUp from "./Auth/SignUp";
+import Todos from "./Todos/Todo";
+import TodoDetail from "./Todos/TodoDetail";
 
 function URLRoutes() {
   return (

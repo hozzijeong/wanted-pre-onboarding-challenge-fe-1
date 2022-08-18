@@ -1,8 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginAPI } from "../api/apis";
-import Form from "../components/AuthForm";
-import useAuth from "../hooks/useAuth";
+import { loginAPI } from "../../api/apis";
+import Form from "../../components/Auth/AuthForm";
+import useAuth from "../../hooks/useAuth";
 
 function Login() {
   const navigation = useNavigate();

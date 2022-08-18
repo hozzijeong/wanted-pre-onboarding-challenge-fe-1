@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { SignUpAPI } from "../api/apis";
-import Form from "../components/AuthForm";
+import Form from "../components/Auth/AuthForm";
 import useAuth from "../hooks/useAuth";
 
 function SignUp() {

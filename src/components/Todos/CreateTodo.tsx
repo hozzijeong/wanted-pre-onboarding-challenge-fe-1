@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { inputChangeHandler } from "../utility/handler";
-import useCreateTodo from "../hooks/useCreateTodo";
-import { createTodos } from "../api/apis";
-import { DataResult } from "../utility/types";
+import { inputChangeHandler } from "../../utility/handler";
+import useCreateTodo from "../../hooks/useCreateTodo";
+import { createTodos } from "../../api/apis";
+import { DataResult } from "../../utility/types";
 import { useSetRecoilState } from "recoil";
-import { todosAtom } from "../atom";
-import { initialResultData } from "../utility/initialData";
+import { todosAtom } from "../../atom";
+import { initialResultData } from "../../utility/initialData";
 
 interface ICreateTodo {
   token: string | null;

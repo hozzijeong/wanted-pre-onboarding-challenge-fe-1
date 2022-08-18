@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
 import { getTodosAPI } from "../api/apis";
 import { initialTodosData } from "../utility/initialData";
 import { ITodos } from "../utility/types";

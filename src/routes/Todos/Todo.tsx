@@ -1,15 +1,15 @@
 import { Suspense, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { todosAtom } from "../atom";
-import CreateTodo from "../components/CreateTodo";
-import TodoList from "../components/TodoList";
-import useGetToken from "../hooks/useGetToken";
-import useGetTodos from "../hooks/useGetTodos";
-import { splitPathName } from "../utility/getPathName";
-import { ITodos } from "../utility/types";
+import { todosAtom } from "../../atom";
+import CreateTodo from "../../components/Todos/CreateTodo";
+import TodoList from "../../components/Todos/TodoList";
+import useGetToken from "../../hooks/useGetToken";
+import useGetTodos from "../../hooks/useGetTodos";
+import { splitPathName } from "../../utility/getPathName";
+import { ITodos } from "../../utility/types";
 import TodoDetail from "./TodoDetail";
-import Loading from "../components/Loading";
+import Loading from "../../components/Utility/Loading";
 
 function Todos() {
   const navigation = useNavigate();
