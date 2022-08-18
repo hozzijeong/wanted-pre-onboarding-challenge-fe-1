@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { getTodosAPI } from "../api/apis";
-import { initialTodosData } from "../utility/initialData";
-import { ITodos } from "../utility/types";
+import { getTodosAPI } from "api/apis";
+import { initialTodosData } from "utility/initialData";
+import { ITodos } from "utility/types";
 import useGetToken from "./useGetToken";
 
 interface ITodosResult {

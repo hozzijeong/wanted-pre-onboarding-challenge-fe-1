@@ -1,5 +1,5 @@
 import { MutationOptions, useMutation } from "@tanstack/react-query";
-import { DataResult, IGetTodoInfo } from "../utility/types";
+import { DataResult, IGetTodoInfo } from "utility/types";
 
 interface IuseDeleteTodo {
   api: (params: IGetTodoInfo) => Promise<any>;

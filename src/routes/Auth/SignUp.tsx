@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
-import { SignUpAPI } from "../api/apis";
-import Form from "../components/Auth/AuthForm";
-import useAuth from "../hooks/useAuth";
+import { SignUpAPI } from "api/apis";
+import AuthForm from "components/Auth/AuthForm";
+import useAuth from "hooks/useAuth";
 
 function SignUp() {
   const navigation = useNavigate();
@@ -13,7 +13,7 @@ function SignUp() {
   return (
     <>
       <h1>회원 가입</h1>
-      <Form category={"회원가입"} api={signUp} />
+      <AuthForm category={"회원가입"} api={signUp} />
       <Link to={"/auth/login"}>로그인</Link>
     </>
   );

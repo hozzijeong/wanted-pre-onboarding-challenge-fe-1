@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { initialAuthData } from "../utility/initialData";
-import { AuthResult, IAuth } from "../utility/types";
+import { initialAuthData } from "utility/initialData";
+import { AuthResult, IAuth } from "utility/types";
 
 function useAuth(api: (body: IAuth) => Promise<AuthResult>) {
   const navigation = useNavigate();

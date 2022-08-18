@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { updateTodos } from "../api/apis";
-import { detailAtom, todosAtom } from "../atom";
-import Input from "../components/Utility/Input";
-import { inputChangeHandler } from "../utility/handler";
-import { DataResult, ITodos, IUpdateTodoParams } from "../utility/types";
-import useUpdateTodo from "../hooks/useUpdateTodo";
-import useGetTodoDetail from "../hooks/useGetTodoDetail";
+import { updateTodos } from "api/apis";
+import { detailAtom, todosAtom } from "atom";
+import Input from "components/Utility/Input";
+import { inputChangeHandler } from "utility/handler";
+import { DataResult, ITodos, IUpdateTodoParams } from "utility/types";
+import useUpdateTodo from "hooks/useUpdateTodo";
+import useGetTodoDetail from "hooks/useGetTodoDetail";
 import { useLocation } from "react-router-dom";
-import { splitPathName } from "../utility/getPathName";
-import useGetToken from "../hooks/useGetToken";
-import { initialResultData } from "../utility/initialData";
+import { splitPathName } from "utility/getPathName";
+import useGetToken from "hooks/useGetToken";
+import { initialResultData } from "utility/initialData";
 
 function TodoDetail() {
   const location = useLocation();

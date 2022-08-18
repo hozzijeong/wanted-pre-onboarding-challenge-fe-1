@@ -1,5 +1,5 @@
 import { MutationOptions, useMutation } from "@tanstack/react-query";
-import { DataResult, ICreateTodos } from "../utility/types";
+import { DataResult, ICreateTodos } from "utility/types";
 
 function useCreateTodo(
   api: (params: ICreateTodos) => Promise<DataResult>,

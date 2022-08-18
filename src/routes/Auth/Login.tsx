@@ -1,12 +1,13 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginAPI } from "../../api/apis";
-import Form from "../../components/Auth/AuthForm";
-import useAuth from "../../hooks/useAuth";
+import { loginAPI } from "api/apis";
+import Form from "components/Auth/AuthForm";
+import useAuth from "hooks/useAuth";
+import useGetToken from "hooks/useGetToken";
 
 function Login() {
   const navigation = useNavigate();
-  const token = localStorage.getItem("token");
+  const token = useGetToken();
   if (token) navigation("/");
 
   const useLogin = useAuth(loginAPI);
