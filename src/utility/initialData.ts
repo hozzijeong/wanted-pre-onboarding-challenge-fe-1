@@ -15,3 +15,8 @@ export const initialAuthData = {
 
   details: "",
 };
+
+export const initialTodosData = {
+  data: [],
+  details: "",
+};

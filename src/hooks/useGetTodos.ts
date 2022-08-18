@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { getTodosAPI } from "../api/apis";
+import { initialTodosData } from "../utility/initialData";
 import { ITodos } from "../utility/types";
 import useGetToken from "./useGetToken";
 
@@ -11,17 +12,15 @@ interface ITodosResult {
 
 function useGetTodos() {
   const token = useGetToken();
-  const query = useQuery(["todos", "all"], async (): Promise<ITodosResult> => {
-    const response = await getTodosAPI(token);
-    if (!response.ok) throw new Error("Network response was not ok");
-    return response.json();
-  });
 
-  useEffect(() => {
-    if (query.error) throw console.error(query.error);
-  }, [query.error]);
-
-  return query?.data;
+  return useQuery(
+    ["todos", "all"],
+    async (): Promise<ITodosResult> => {
+      const response = await getTodosAPI(token);
+      return response.json();
+    },
+    { initialData: initialTodosData, suspense: true },
+  );
 }
 
 export default useGetTodos;

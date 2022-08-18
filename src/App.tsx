@@ -10,13 +10,12 @@ function App() {
   const queryClient = new QueryClient({
     queryCache: new QueryCache({
       onError: (error, query) => {
-        console.log(error, query);
         if (query.state.data !== undefined) {
-          console.error(`에러가 났어요!!: ${error}`);
+          console.error(`error occured: ${error}`);
         }
       },
-      onSuccess: (data) => {},
     }),
+    defaultOptions: { queries: { suspense: true } },
   });
 
   return (
