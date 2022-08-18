@@ -41,6 +41,7 @@ menu, ol, ul {
 }
 
 button{
+  border: none;
   &:hover{
     cursor: pointer;
   }

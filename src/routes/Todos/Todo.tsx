@@ -40,7 +40,6 @@ function Todos() {
       <CreateTodo token={token} />
       <hr />
       <TodoList todos={todos} />
-      <hr />
       {id && <TodoDetail />}
     </div>
   );

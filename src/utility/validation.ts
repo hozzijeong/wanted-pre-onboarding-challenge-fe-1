@@ -10,6 +10,10 @@ export function validatePassword(password: string): boolean {
   return regExp.test(password);
 }
 
+export function validateLength(content: string): boolean {
+  return content.length > 0;
+}
+
 export function checkStateNull(state: ITodos | null): boolean {
   return state === null;
 }

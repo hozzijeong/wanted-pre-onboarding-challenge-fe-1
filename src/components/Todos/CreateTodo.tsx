@@ -7,6 +7,9 @@ import { useSetRecoilState } from "recoil";
 import { todosAtom } from "atom";
 import { initialResultData } from "utility/initialData";
 import Title from "components/Title";
+import Input from "components/Utility/Input";
+import { AuthContainer, SubmitInput } from "components/Auth/AuthForm";
+import { validateLength } from "utility/validation";
 
 interface ICreateTodo {
   token: string | null;
@@ -41,23 +44,28 @@ function CreateTodo({ token }: ICreateTodo) {
   return (
     <div>
       <Title title="AddTask" size={"3.6rem"} />
-      <form onSubmit={(e) => onSubmit(e)}>
-        <input
-          style={{ width: "98%" }}
+      <AuthContainer onSubmit={(e) => onSubmit(e)}>
+        <Input
           type="text"
-          placeholder="type title"
           value={title}
-          onChange={(e) => inputChangeHandler({ e, fnc: setTitle })}
+          changeHandler={inputChangeHandler}
+          fnc={setTitle}
+          placeHolder="제목을 입력해주세요"
         />
 
-        <textarea
-          style={{ height: "100%", width: "98%" }}
+        <Input
+          type="text"
           value={content}
-          onChange={(e) => inputChangeHandler({ e, fnc: setContent })}
-        ></textarea>
-
-        <input type="submit" value="추가하기" />
-      </form>
+          changeHandler={inputChangeHandler}
+          fnc={setContent}
+          placeHolder="내용을 입력해주세요"
+        />
+        <SubmitInput
+          type="submit"
+          value="추가하기"
+          disabled={!validateLength(title) || !validateLength(content)}
+        />
+      </AuthContainer>
     </div>
   );
 }

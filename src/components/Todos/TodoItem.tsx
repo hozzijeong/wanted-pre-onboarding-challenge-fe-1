@@ -7,11 +7,32 @@ import { ITodos } from "utility/types";
 import { splitPathName } from "utility/getPathName";
 import { useSetRecoilState } from "recoil";
 import { todosAtom } from "atom";
+import styled from "styled-components";
 
 interface ITodoItem {
   key: string;
   todo: ITodos;
 }
+
+const ListContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  max-width: 54rem;
+`;
+
+const ListTitle = styled.p`
+  max-width: 36rem;
+  font-size: 2.4rem;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const OptionContainer = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 1.6rem;
+`;
 
 function TodoItem({ todo }: ITodoItem) {
   const token = useGetToken();
@@ -40,11 +61,14 @@ function TodoItem({ todo }: ITodoItem) {
 
   return (
     <li>
-      <div>
-        <span>{todo.title}</span>
-        <button onClick={deleteHandler}>삭제하기</button>
-        <Link to={`/details/${todo.id}`}>상세보기</Link>
-      </div>
+      <ListContainer>
+        <ListTitle>{todo.title}</ListTitle>
+        <OptionContainer>
+          <button onClick={deleteHandler}>삭제하기</button>
+          <Link to={`/details/${todo.id}`}>상세보기</Link>
+        </OptionContainer>
+      </ListContainer>
+      <hr />
     </li>
   );
 }

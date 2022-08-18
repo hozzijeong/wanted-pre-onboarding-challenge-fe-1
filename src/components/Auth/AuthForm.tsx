@@ -11,7 +11,7 @@ interface IForm {
   api: UseMutationResult<AuthResult, unknown, IAuth, unknown>;
 }
 
-const AuthContainer = styled.form`
+export const AuthContainer = styled.form`
   display: flex;
   flex-direction: column;
   max-width: 54rem;
@@ -19,7 +19,7 @@ const AuthContainer = styled.form`
   justify-content: space-between;
 `;
 
-const SubmitInput = styled(ValueInput)`
+export const SubmitInput = styled(ValueInput)`
   border: none;
   background-color: #bebebe;
   &:hover {
