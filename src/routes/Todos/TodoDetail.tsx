@@ -11,6 +11,7 @@ import { useLocation } from "react-router-dom";
 import { splitPathName } from "utility/getPathName";
 import useGetToken from "hooks/useGetToken";
 import { initialResultData } from "utility/initialData";
+import Title from "components/Title";
 
 function TodoDetail() {
   const location = useLocation();
@@ -71,13 +72,8 @@ function TodoDetail() {
 
   return detail !== null ? (
     <div>
-      <h2>상세 보기</h2>
-      <button onClick={updateHandler}>
-        {isUpdateState ? "제출하기" : "수정하기"}
-      </button>
-      {isUpdateState ? (
-        <button onClick={() => cancleHandler(detail)}>취소하기</button>
-      ) : null}
+      <Title title="상세 보기" size={"3.6rem"} />
+
       <div>
         <label>
           Title:
@@ -104,6 +100,12 @@ function TodoDetail() {
           )}
         </label>
       </div>
+      <button onClick={updateHandler}>
+        {isUpdateState ? "제출하기" : "수정하기"}
+      </button>
+      {isUpdateState ? (
+        <button onClick={() => cancleHandler(detail)}>취소하기</button>
+      ) : null}
     </div>
   ) : null;
 }

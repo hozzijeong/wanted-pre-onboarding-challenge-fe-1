@@ -4,6 +4,8 @@ import { loginAPI } from "api/apis";
 import Form from "components/Auth/AuthForm";
 import useAuth from "hooks/useAuth";
 import useGetToken from "hooks/useGetToken";
+import Title from "components/Title";
+import AuthLink from "components/AuthLink";
 
 function Login() {
   const navigation = useNavigate();
@@ -14,9 +16,11 @@ function Login() {
 
   return (
     <div>
-      <h1>로그인</h1>
+      <Title title={"로그인"} size={"4.8rem"} />
       <Form category={"로그인"} api={useLogin} />
-      <Link to={"/auth/signup"}>회원가입</Link>
+      <Link to={"/auth/signup"}>
+        <AuthLink title={"회원가입"} />
+      </Link>
     </div>
   );
 }

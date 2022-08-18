@@ -6,6 +6,7 @@ import { DataResult } from "utility/types";
 import { useSetRecoilState } from "recoil";
 import { todosAtom } from "atom";
 import { initialResultData } from "utility/initialData";
+import Title from "components/Title";
 
 interface ICreateTodo {
   token: string | null;
@@ -39,7 +40,7 @@ function CreateTodo({ token }: ICreateTodo) {
 
   return (
     <div>
-      <h1>Add Task</h1>
+      <Title title="AddTask" size={"3.6rem"} />
       <form onSubmit={(e) => onSubmit(e)}>
         <input
           style={{ width: "98%" }}

@@ -1,15 +1,32 @@
 import { UseMutationResult } from "@tanstack/react-query";
 import { useState } from "react";
+import styled from "styled-components";
 import { inputChangeHandler } from "../../utility/handler";
 import { AuthResult, IAuth } from "../../utility/types";
 import { validateEmail, validatePassword } from "../../utility/validation";
-import Input from "../Utility/Input";
+import Input, { ValueInput } from "../Utility/Input";
 
 interface IForm {
   category: string;
   api: UseMutationResult<AuthResult, unknown, IAuth, unknown>;
-  // fetcher: (data: AuthResult) => void;
 }
+
+const AuthContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  max-width: 54rem;
+  margin: 0 auto;
+  justify-content: space-between;
+`;
+
+const SubmitInput = styled(ValueInput)`
+  border: none;
+  background-color: #bebebe;
+  &:hover {
+    cursor: pointer;
+    background-color: #adadad;
+  }
+`;
 
 function AuthForm({ category, api }: IForm) {
   const [email, setEmail] = useState<string>("");
@@ -21,7 +38,7 @@ function AuthForm({ category, api }: IForm) {
   };
 
   return (
-    <form method="post" onSubmit={(e) => authSubmitHandler(e)}>
+    <AuthContainer method="post" onSubmit={(e) => authSubmitHandler(e)}>
       <Input
         type="email"
         value={email}
@@ -34,12 +51,12 @@ function AuthForm({ category, api }: IForm) {
         changeHandler={inputChangeHandler}
         fnc={setPassword}
       />
-      <input
+      <SubmitInput
         type="submit"
         value={category}
         disabled={!validateEmail(email) || !validatePassword(password)}
       />
-    </form>
+    </AuthContainer>
   );
 }
 

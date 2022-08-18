@@ -1,3 +1,4 @@
+import Title from "components/Title";
 import { ITodos } from "utility/types";
 import TodoItem from "./TodoItem";
 
@@ -7,7 +8,7 @@ interface ITodoList {
 function TodoList({ todos }: ITodoList) {
   return (
     <div>
-      <h1>TodoList</h1>
+      <Title title="TodoList" size={"3.6rem"} />
       <ul>{[...todos.map((x: ITodos) => <TodoItem key={x.id} todo={x} />)]}</ul>
     </div>
   );

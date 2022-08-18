@@ -10,6 +10,7 @@ import { splitPathName } from "utility/getPathName";
 import { ITodos } from "utility/types";
 import TodoDetail from "./TodoDetail";
 import Loading from "components/Utility/Loading";
+import Title from "components/Title";
 
 function Todos() {
   const navigation = useNavigate();
@@ -34,7 +35,7 @@ function Todos() {
 
   return (
     <div>
-      <h1>Tasks</h1>
+      <Title title="Tasks" size={"4.6rem"} />
       <button onClick={logoutHandler}>로그아웃</button>
       <CreateTodo token={token} />
       <hr />

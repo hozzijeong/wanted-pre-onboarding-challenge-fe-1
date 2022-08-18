@@ -4,7 +4,7 @@ import Loading from "./Utility/Loading";
 
 const LayoutContainer = styled.div`
   margin: 10rem auto;
-  width: 108rem;
+  width: 54rem;
 `;
 
 interface ILayout {

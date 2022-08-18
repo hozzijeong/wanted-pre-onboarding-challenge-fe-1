@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import { IChangeValue } from "../../utility/handler";
 
 interface IInputProps {
@@ -8,9 +9,18 @@ interface IInputProps {
   disabled?: boolean;
 }
 
+export const ValueInput = styled.input`
+  border-radius: 1rem;
+  outline: none;
+  height: 4rem;
+  margin: 1rem 0;
+  font-size: 2.4rem;
+  padding: 0 1rem;
+`;
+
 function Input({ type, value, changeHandler, fnc, disabled }: IInputProps) {
   return (
-    <input
+    <ValueInput
       type={type}
       value={value}
       onChange={(e) => changeHandler({ e, fnc })}
