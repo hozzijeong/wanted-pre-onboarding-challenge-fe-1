@@ -1,32 +1,13 @@
-import { useMutation } from "@tanstack/react-query";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { todosAtom } from "../atom";
-import { splitPathName } from "../utility/getPathName";
-import { IGetTodoInfo, ITodos } from "../utility/types";
+import { MutationOptions, useMutation } from "@tanstack/react-query";
+import { DataResult, IGetTodoInfo } from "../utility/types";
 
 interface IuseDeleteTodo {
   api: (params: IGetTodoInfo) => Promise<any>;
-  todo: ITodos;
+  options: MutationOptions<DataResult, unknown, IGetTodoInfo, unknown>;
 }
 
-function useDeleteTodo({ api, todo }: IuseDeleteTodo) {
-  const setTodos = useSetRecoilState(todosAtom);
-  const location = useLocation();
-  const navigation = useNavigate();
-
-  const mutation = useMutation(api, {
-    onError: (error) => {
-      console.error(error);
-    },
-    onSuccess: () => {
-      const deleteId = splitPathName(location.pathname)[2];
-      setTodos((curTodos) => [...curTodos.filter((x) => x.id !== todo.id)]);
-      if (deleteId === todo.id) navigation("/");
-    },
-  });
-
-  return mutation;
+function useDeleteTodo({ api, options }: IuseDeleteTodo) {
+  return useMutation(api, options);
 }
 
 export default useDeleteTodo;

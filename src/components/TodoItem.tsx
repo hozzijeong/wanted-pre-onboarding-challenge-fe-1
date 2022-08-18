@@ -1,9 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { deleteTodos } from "../api/apis";
 import useGetToken from "../hooks/useGetToken";
 import useDeleteTodo from "../hooks/useDeleteTodo";
 
 import { ITodos } from "../utility/types";
+import { splitPathName } from "../utility/getPathName";
+import { useSetRecoilState } from "recoil";
+import { todosAtom } from "../atom";
 
 interface ITodoItem {
   key: string;
@@ -11,11 +14,22 @@ interface ITodoItem {
 }
 
 function TodoItem({ todo }: ITodoItem) {
+  const token = useGetToken();
+  const navigation = useNavigate();
+  const location = useLocation();
+  const setTodos = useSetRecoilState(todosAtom);
+
+  const options = {
+    onSuccess: () => {
+      const deleteId = splitPathName(location.pathname)[2];
+      setTodos((curTodos) => [...curTodos.filter((x) => x.id !== todo.id)]);
+      if (deleteId === todo.id) navigation("/");
+    },
+  };
   const parmas = {
     api: deleteTodos,
-    todo,
+    options,
   };
-  const token = useGetToken();
   const mutation = useDeleteTodo(parmas);
 
   const deleteHandler = () => {

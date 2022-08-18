@@ -5,9 +5,7 @@ function useUpdateTodo(
   api: (params: IUpdateTodoParams) => Promise<DataResult>,
   options: MutationOptions<DataResult, unknown, IUpdateTodoParams, unknown>,
 ) {
-  const mutation = useMutation(api, options);
-
-  return mutation;
+  return useMutation(api, options);
 }
 
 export default useUpdateTodo;

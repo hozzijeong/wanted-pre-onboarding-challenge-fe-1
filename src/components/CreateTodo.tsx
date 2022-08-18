@@ -2,6 +2,10 @@ import { useState } from "react";
 import { inputChangeHandler } from "../utility/handler";
 import useCreateTodo from "../hooks/useCreateTodo";
 import { createTodos } from "../api/apis";
+import { DataResult } from "../utility/types";
+import { useSetRecoilState } from "recoil";
+import { todosAtom } from "../atom";
+import { initialResultData } from "../utility/initialData";
 
 interface ICreateTodo {
   token: string | null;
@@ -10,7 +14,15 @@ interface ICreateTodo {
 function CreateTodo({ token }: ICreateTodo) {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
-  const createMutation = useCreateTodo(createTodos);
+  const setTodos = useSetRecoilState(todosAtom);
+  const options = {
+    onSuccess: (data: DataResult) => {
+      if (data?.details) alert(data.details);
+      else setTodos((curVal) => [...curVal, data.data]);
+    },
+    initialData: initialResultData,
+  };
+  const createMutation = useCreateTodo(createTodos, options);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

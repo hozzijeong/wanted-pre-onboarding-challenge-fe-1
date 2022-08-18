@@ -10,6 +10,7 @@ import useGetTodoDetail from "../hooks/useGetTodoDetail";
 import { useLocation } from "react-router-dom";
 import { splitPathName } from "../utility/getPathName";
 import useGetToken from "../hooks/useGetToken";
+import { initialResultData } from "../utility/initialData";
 
 function TodoDetail() {
   const location = useLocation();
@@ -17,6 +18,7 @@ function TodoDetail() {
   const token = useGetToken();
   const options = {
     onSuccess: (response: DataResult) => updateData(response, setTodos),
+    initialData: initialResultData,
   };
   const setTodos = useSetRecoilState(todosAtom);
   const { data } = useGetTodoDetail(id, token);
