@@ -33,17 +33,15 @@ function Todos() {
   };
 
   return (
-    <Suspense fallback={<Loading />}>
-      <div>
-        <h1>Tasks</h1>
-        <button onClick={logoutHandler}>로그아웃</button>
-        <CreateTodo token={token} />
-        <hr />
-        <TodoList todos={todos} />
-        <hr />
-        {id && <TodoDetail />}
-      </div>
-    </Suspense>
+    <div>
+      <h1>Tasks</h1>
+      <button onClick={logoutHandler}>로그아웃</button>
+      <CreateTodo token={token} />
+      <hr />
+      <TodoList todos={todos} />
+      <hr />
+      {id && <TodoDetail />}
+    </div>
   );
 }
 
