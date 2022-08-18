@@ -32,6 +32,7 @@ const OptionContainer = styled.div`
   display: flex;
   align-items: center;
   font-size: 1.6rem;
+  font-weight: 500;
 `;
 
 function TodoItem({ todo }: ITodoItem) {

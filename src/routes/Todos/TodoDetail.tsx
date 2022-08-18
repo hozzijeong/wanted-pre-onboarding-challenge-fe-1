@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { updateTodos } from "api/apis";
 import { detailAtom, todosAtom } from "atom";
-import Input from "components/Utility/Input";
-import { inputChangeHandler } from "utility/handler";
 import { DataResult, ITodos, IUpdateTodoParams } from "utility/types";
 import useUpdateTodo from "hooks/useUpdateTodo";
 import useGetTodoDetail from "hooks/useGetTodoDetail";
@@ -12,6 +10,23 @@ import { splitPathName } from "utility/getPathName";
 import useGetToken from "hooks/useGetToken";
 import { initialResultData } from "utility/initialData";
 import Title from "components/Title";
+import UpdateLabel from "components/Todos/UpdateLabel";
+import styled from "styled-components";
+
+const LabelContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 54rem;
+`;
+
+export const DefaultButton = styled.button`
+  border-radius: 1rem;
+  outline: none;
+  height: 4rem;
+  margin: 1rem 0;
+  font-size: 2.4rem;
+  padding: 0 1rem;
+`;
 
 function TodoDetail() {
   const location = useLocation();
@@ -73,39 +88,30 @@ function TodoDetail() {
   return detail !== null ? (
     <div>
       <Title title="상세 보기" size={"3.6rem"} />
-
-      <div>
-        <label>
-          Title:
-          {isUpdateState ? (
-            <Input
-              value={title}
-              changeHandler={inputChangeHandler}
-              fnc={setTitle}
-            />
-          ) : (
-            <span>{title}</span>
-          )}
-        </label>
-        <label>
-          Content:
-          {isUpdateState ? (
-            <Input
-              value={content}
-              changeHandler={inputChangeHandler}
-              fnc={setContent}
-            />
-          ) : (
-            <span>{content}</span>
-          )}
-        </label>
+      <LabelContainer>
+        <UpdateLabel
+          title={"Title"}
+          state={isUpdateState}
+          value={title}
+          fnc={setTitle}
+        />
+        <UpdateLabel
+          title={"Content"}
+          state={isUpdateState}
+          value={content}
+          fnc={setContent}
+        />
+      </LabelContainer>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <DefaultButton onClick={updateHandler}>
+          {isUpdateState ? "제출하기" : "수정하기"}
+        </DefaultButton>
+        {isUpdateState ? (
+          <DefaultButton onClick={() => cancleHandler(detail)}>
+            취소하기
+          </DefaultButton>
+        ) : null}
       </div>
-      <button onClick={updateHandler}>
-        {isUpdateState ? "제출하기" : "수정하기"}
-      </button>
-      {isUpdateState ? (
-        <button onClick={() => cancleHandler(detail)}>취소하기</button>
-      ) : null}
     </div>
   ) : null;
 }

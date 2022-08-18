@@ -8,7 +8,7 @@ import useGetToken from "hooks/useGetToken";
 import useGetTodos from "hooks/useGetTodos";
 import { splitPathName } from "utility/getPathName";
 import { ITodos } from "utility/types";
-import TodoDetail from "./TodoDetail";
+import TodoDetail, { DefaultButton } from "./TodoDetail";
 import Loading from "components/Utility/Loading";
 import Title from "components/Title";
 
@@ -36,7 +36,7 @@ function Todos() {
   return (
     <div>
       <Title title="Tasks" size={"4.6rem"} />
-      <button onClick={logoutHandler}>로그아웃</button>
+      <DefaultButton onClick={logoutHandler}>로그아웃</DefaultButton>
       <CreateTodo token={token} />
       <hr />
       <TodoList todos={todos} />
