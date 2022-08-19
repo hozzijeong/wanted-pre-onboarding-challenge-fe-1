@@ -12,10 +12,11 @@
    ### TodoList 기능별 구분
    <img width="80%" src="https://user-images.githubusercontent.com/50974359/185644535-39384b2c-31ee-4a55-9f3b-a24f2b3be88a.png"/>
 
-
 ## 설치, 환경설정 및 실행 방법
 
-    - 프로젝트 실행 시 필요한 환경 세팅 확인 (script, port, env, …)
+- port:3000
+
+  - npm start
 
 ## 구현 요구 사항 목록
 
@@ -58,66 +59,100 @@
 
 ## 사용한 프레임워크 및 라이브러리 설명
 
-    - package.json 참조하여 선택한 이유 작성
+```json
+"name": "wanted-pre-onboarding-challenge-fe-1",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@tanstack/react-query": "^4.1.3",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.11.47",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.3.0", // SPA 형식으로 구현하기 위한 라이브러리
+    "react-scripts": "^5.0.1",
+    "recoil": "^0.7.5", // 전역 상태 관리를 위해 사용
+    "typescript": "^4.7.4",
+    "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "@types/react-router-dom": "^5.3.3",
+    "@types/styled-components": "^5.1.26",
+    "styled-components": "^5.3.5" // 디자인 추가를 위한 라이브러리
+  }
+
+```
 
 ## 폴더 구조 설명
 
-    - 폴더를 구분한 기준에 대하여 설명
+- api: 서버와 통신하는 api들을 promise 형식으로 반환하는 함수들을 저장한 폴더입니다.
+- components: 각각의 폴더에서 사용되는 컴포넌트들을 저장한 폴더입니다.
+- hooks: Custom Hooks를 저장한 폴더입니다.
+- routes: page route들을 저장한 폴더입니다.
+- utiliry: 서비스 구현에 필요한 utility 함수들을 저장한 폴더입니다.
 
-📦src
-┣ 📂api
-┃ ┗ 📜apis.ts
-┣ 📂components
-┃ ┣ 📂Auth
-┃ ┃ ┗ 📜AuthForm.tsx
-┃ ┣ 📂Todos
-┃ ┃ ┣ 📜CreateTodo.tsx
-┃ ┃ ┣ 📜TodoItem.tsx
-┃ ┃ ┣ 📜TodoList.tsx
-┃ ┃ ┗ 📜UpdateLabel.tsx
-┃ ┣ 📂Utility
-┃ ┃ ┣ 📂Loading
-┃ ┃ ┃ ┣ 📜DetailSkeleton.tsx
-┃ ┃ ┃ ┣ 📜SkeletonItem.tsx
-┃ ┃ ┃ ┗ 📜TodoListSkeleton.tsx
-┃ ┃ ┣ 📜Input.tsx
-┃ ┃ ┗ 📜Loading.tsx
-┃ ┣ 📜AuthLink.tsx
-┃ ┣ 📜Layout.tsx
-┃ ┗ 📜Title.tsx
-┣ 📂hooks
-┃ ┣ 📜useAuth.ts
-┃ ┣ 📜useCreateTodo.ts
-┃ ┣ 📜useDeleteTodo.ts
-┃ ┣ 📜useGetTodoDetail.ts
-┃ ┣ 📜useGetTodos.ts
-┃ ┣ 📜useGetToken.ts
-┃ ┗ 📜useUpdateTodo.ts
-┣ 📂routes
-┃ ┣ 📂Auth
-┃ ┃ ┣ 📜Login.tsx
-┃ ┃ ┗ 📜SignUp.tsx
-┃ ┣ 📂Todos
-┃ ┃ ┣ 📜Todo.tsx
-┃ ┃ ┗ 📜TodoDetail.tsx
-┃ ┣ 📜NotFound.tsx
-┃ ┗ 📜Route.tsx
-┣ 📂utility
-┃ ┣ 📜getPathName.ts
-┃ ┣ 📜handler.ts
-┃ ┣ 📜initialData.ts
-┃ ┣ 📜types.ts
-┃ ┗ 📜validation.ts
-┣ 📜App.tsx
-┣ 📜atom.tsx
-┣ 📜index.tsx
-┣ 📜react-app-env.d.ts
-┗ 📜reportWebVitals.ts
+```tree
+  src
+  ┣ api
+  ┃ ┗ apis.ts
+  ┣ components
+  ┃ ┣ Auth
+  ┃ ┃ ┗ AuthForm.tsx
+  ┃ ┣ Todos
+  ┃ ┃ ┣ CreateTodo.tsx
+  ┃ ┃ ┣ TodoItem.tsx
+  ┃ ┃ ┣ TodoList.tsx
+  ┃ ┃ ┗ UpdateLabel.tsx
+  ┃ ┣ Utility
+  ┃ ┃ ┣ Loading
+  ┃ ┃ ┃ ┣ DetailSkeleton.tsx
+  ┃ ┃ ┃ ┣ SkeletonItem.tsx
+  ┃ ┃ ┃ ┗ TodoListSkeleton.tsx
+  ┃ ┃ ┣ Input.tsx
+  ┃ ┃ ┗ Loading.tsx
+  ┃ ┣ AuthLink.tsx
+  ┃ ┣ Layout.tsx
+  ┃ ┗ Title.tsx
+  ┣ hooks
+  ┃ ┣ useAuth.ts
+  ┃ ┣ useCreateTodo.ts
+  ┃ ┣ useDeleteTodo.ts
+  ┃ ┣ useGetTodoDetail.ts
+  ┃ ┣ useGetTodos.ts
+  ┃ ┣ useGetToken.ts
+  ┃ ┗ useUpdateTodo.ts
+  ┣ routes
+  ┃ ┣ Auth
+  ┃ ┃ ┣ Login.tsx
+  ┃ ┃ ┗ SignUp.tsx
+  ┃ ┣ Todos
+  ┃ ┃ ┣ Todo.tsx
+  ┃ ┃ ┗ TodoDetail.tsx
+  ┃ ┣ NotFound.tsx
+  ┃ ┗ Route.tsx
+  ┣ utility
+  ┃ ┣ getPathName.ts
+  ┃ ┣ handler.ts
+  ┃ ┣ initialData.ts
+  ┃ ┣ types.ts
+  ┃ ┗ validation.ts
+  ┣ App.tsx
+  ┣ atom.tsx
+  ┣ index.tsx
+  ┣ react-app-env.d.ts
+  ┗ reportWebVitals.ts
+```
 
 ## 과제 진행 시 주안점 작성
 
-    - 고민한 부분에 대하여 서술
+    - 최대한 선언형 프로그래밍으로 작성하기 위해 신경썼습니다. 하지만 생각보다 녹록치 않았습니다...
 
 ## 한계점 및 개선 사항 작성
 
-    - 고려는 하였으나 실제 구현하지 못한 부분에 대하여 서술
+    - React-Query에 대한 완벽한 이해가 부족했습니다. Suspense를 사용해서 Skeleton을 구현하고 싶었지만, 실력의 한계로 구현하지 못했습니다.
+    - Error 핸들링과 UI부분을 좀 더 개선하면 좋을것 같습니다.
