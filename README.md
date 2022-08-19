@@ -157,3 +157,147 @@
 
 - React-Query에 대한 완벽한 이해가 부족했습니다. Suspense를 사용해서 Skeleton을 구현하고 싶었지만, 실력의 한계로 구현하지 못했습니다.
 - Error 핸들링과 UI부분을 좀 더 개선하면 좋을것 같습니다.
+
+## 2주간 과제를 진행하면서 했던 고민
+
+1. Detail 상태관리
+   과제 요구사항에 있는 TodoList와 Detail을 한 화면에 보여달라는 요청이 있었습니다. 해당 요청을 보고는 중첩 라우팅을 사용하고, GetDetails라는 API를 사용하기 보다 그냥 클릭한 item 값을 넘겨주면 되지 않나? 라고 생각을 했고 실제로 처음에는 그렇게 했었습니다.
+   하지만 그런식으로 본인을 속이면 실력이 늘것 같지 않아서 다시 코드를 작성했습니다.
+
+   ```typescript
+   // TodoItem.tsx
+   <div>
+     <span>{todo.title}</span>
+     <button onClick={deleteItem}>삭제하기</button>
+     <Link to={`/details/${todo.id}`} state={todo}>
+       상세보기
+     </Link>
+   </div>
+   ```
+
+   ```typescript
+   // TodoDetail.tsx
+   const location = useLocation();
+   const state = location.state as ITodos;
+   const token = localStorage.getItem("token") as string;
+   ```
+
+   우선 중첩 라우팅으로 코드를 처리하는데, Detail 페이지가 Main 페이지가 렌더링 될때도 계속해서 렌더링 되는 것이 문제였습니다. 따라서 id를 Todo.tsx 페이지에서 받고 id의 존재 유무에 따라 Detail 페이지를 render 할지 말지로 코드를 작성했습니다.
+
+   ```typescript
+   // Todo.tsx
+   {
+     id && <TodoDetail />;
+   }
+   ```
+
+   하지만 문제는 이후에 발생합니다. Detail에 있는 React-Query에 있는 query-key 값을 통해 관리했는데, 계속해서 직전에 있는 상태를 나타내서 보여주게 되었습니다. 아직 React-Query에 익숙하지 않는데 아무 코드나 복사했다가 그런 사단이 일어났습니다.
+
+   ```typescript
+   // 수정 전
+   // useGetTodoDetail
+   function useGetTodoDetail(api: (params: IGetTodoInfo) => Promise<DataResult>) {
+   const navigation = useNavigate();
+   const setDetail = useSetRecoilState(detailAtom);
+   const mutation = useMutation(api, {
+      onError: (error) => {},
+      onSuccess: (response: DataResult) => {
+         const { details, data } = response;
+         if (details) navigation("/");
+         else setDetail(data);
+      },
+   });
+
+   return mutation;
+   // TodoDetail.tsx
+   ...
+   useEffect(() => {
+      if (typeof id === "string" && typeof token === "string") {
+         state.mutate({ id, token });
+         if (state.isSuccess) {
+         const { data } = state.data;
+         setTitle(data.title);
+         setContent(data.content);
+         }
+      } else {
+         setDetail(null);
+         navigation("/");
+   ...
+
+
+
+   // 수정 후
+   // useGetTodoDetail
+
+   function useGetTodoDetail(id: string, token: string) {
+   return useQuery(["todos", id], () => getTodosDetail({ token, id }), {
+      initialData: initialResultData,
+   });
+   }
+
+   // TodoDetail.tsx
+
+   ...
+   const { data } = useGetTodoDetail(id, token);
+
+   useEffect(() => {
+      if (data) updateData(data);
+   }, [data]);
+   ...
+   ```
+
+하지만 다음과 같이 수정을 거치고, Detail 화면일 렌더링 될 때 data 값을 받아서 반환하도록 선언하여 문제를 해결할 수 있었습니다.
+
+2. 적응되지 않는 Error Handling
+   너무 투박하게 Error 처리를 한 감이 없지않게 있습니다. 모든 API option에다가 `throw console.error(error)` 를 할 수도 없는 노릇이었고 기술 블로그에 나와있는 방식 중에 가장 [간단한 방식](https://tkdodo.eu/blog/react-query-error-handling)으로 처리만 했습니다.
+
+   ```typescript
+   // App.tsx
+   queryCache: new QueryCache({
+         onError: (error, query) => {
+         if (query.state.data !== undefined)
+            console.error(`error occured: ${error}`);
+         },
+      }),
+   ```
+
+3. 적용하지 못한 Skeleton과 Suspense
+   Loading 상황일 때 향상된 UI를 제공하기 위해 Skeleton과 Suspense를 이용하여 작성하려고 했지만 왜인지 모르게 API 통실할 때 렉이 걸리고 렌더링이 느리게 되는 현상이 나타났습니다. 또한, 원하는 Skeleton은 나오지 않고 그저 제일 처음에 아무 데이터도 입력되지 않는 값으로만 나타나있어서 어느것이 문제인지 알지 못하고 이렇게 끝나게 되었습니다. (TodoList CRUD에 나오는 렉)
+   해당 기능 구현에 대해서는 추후에 알아보고 다시 구현해볼 생각입니다.
+
+4. 선언형으로 작성하기
+   항상 마음속으로 "선언형으로 작성해야지" 라는 생각을 가지고 코드를 작성하지만, 일단은 기능 구현하기에 바빠서 항상 명령형으로 작성한 뒤 선언형으로 고치기 급급했습니다. 모든 코드를 선언형으로 작성했냐 라는 대답에 확신의 YES를 하지는 못하지만,,, 그래도 리팩토링 과정을 거치면서 그나마 좀 나아지는 것 같았습니다.
+
+   ```typescript
+   // 수정 전
+   // useCreateTodo
+   function useCreateTodo(api: (params: ICreateTodos) => Promise<DataResult>) {
+     const setTodos = useSetRecoilState(todosAtom);
+
+     const mutation = useMutation(api, {
+       onError: (error) => {
+         console.error(error);
+       },
+       onSuccess: (data: DataResult) => {
+         if (data?.details) alert(data.details);
+         else setTodos((curVal) => [...curVal, data.data]);
+       },
+     });
+
+     return mutation;
+   }
+   // 수정 후
+   // useCreateTodo
+   function useCreateTodo(
+     api: (params: ICreateTodos) => Promise<DataResult>,
+     options: MutationOptions<DataResult, unknown, ICreateTodos, unknown>,
+   ) {
+     const mutation = useMutation(api, options);
+
+     return mutation;
+   }
+   ```
+
+## 느낀점
+
+아직 배워야 할 것이 너무 많다는 것을 알게되었습니다. 2주만에 실력에 대한 드라마틱한 변화는 없었지만, 앞으로 제가 어떤 방식으로 공부를 해야할지에 대한 방향성을 알게된 것 같아서 너무 기뻤습니다. 개념 위주의 게으른 공부 방식이 얼마나 위험한지에 대해 알게되었고 무엇인가를 기록해야 한다는 것을 느끼게된 2주였습니다.
