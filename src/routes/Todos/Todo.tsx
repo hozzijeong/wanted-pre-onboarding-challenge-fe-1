@@ -9,8 +9,8 @@ import useGetTodos from "hooks/useGetTodos";
 import { splitPathName } from "utility/getPathName";
 import { ITodos } from "utility/types";
 import TodoDetail, { DefaultButton } from "./TodoDetail";
-import Loading from "components/Utility/Loading";
 import Title from "components/Title";
+import DetailSkeleton from "components/Utility/Loading/DetailSkeleton";
 
 function Todos() {
   const navigation = useNavigate();
@@ -40,7 +40,7 @@ function Todos() {
       <CreateTodo token={token} />
       <hr />
       <TodoList todos={todos} />
-      {id && <TodoDetail />}
+      <Suspense fallback={<DetailSkeleton />}>{id && <TodoDetail />}</Suspense>
     </div>
   );
 }
