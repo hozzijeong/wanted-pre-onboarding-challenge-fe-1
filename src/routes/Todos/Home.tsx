@@ -1,15 +1,20 @@
 import { Suspense } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CreateTodo from "components/Todos/CreateTodo";
 import TodoList from "components/Todos/TodoList";
 import useGetToken from "hooks/useGetToken";
 import TodoListSkeleton from "components/Utility/Loading/TodoListSkeleton";
 import Title from "components/Title";
-import { DefaultButton } from "./TodoDetail";
+import TodoDetail, { DefaultButton } from "./TodoDetail";
+import DetailSkeleton from "components/Utility/Loading/DetailSkeleton";
+import { splitPathName } from "utility/getPathName";
 
 function Home() {
   const navigation = useNavigate();
   const token = useGetToken();
+  const location = useLocation();
+
+  const id = splitPathName(location.pathname)[2];
 
   // const { data } = useGetTodos();
 
@@ -39,6 +44,7 @@ function Home() {
       <Suspense fallback={<TodoListSkeleton />}>
         <TodoList />
       </Suspense>
+      <Suspense fallback={<DetailSkeleton />}>{id && <TodoDetail />}</Suspense>
     </>
   );
 }

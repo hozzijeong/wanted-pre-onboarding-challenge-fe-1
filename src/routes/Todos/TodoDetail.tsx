@@ -85,35 +85,39 @@ function TodoDetail() {
     setIsUpdateState(false);
   };
 
-  return detail !== null ? (
+  return (
     <div>
-      <Title title="상세 보기" size={"3.6rem"} />
-      <LabelContainer>
-        <UpdateLabel
-          title={"Title"}
-          state={isUpdateState}
-          value={title}
-          fnc={setTitle}
-        />
-        <UpdateLabel
-          title={"Content"}
-          state={isUpdateState}
-          value={content}
-          fnc={setContent}
-        />
-      </LabelContainer>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <DefaultButton onClick={updateHandler}>
-          {isUpdateState ? "제출하기" : "수정하기"}
-        </DefaultButton>
-        {isUpdateState ? (
-          <DefaultButton onClick={() => cancleHandler(detail)}>
-            취소하기
-          </DefaultButton>
-        ) : null}
-      </div>
+      {data && (
+        <>
+          <Title title="상세 보기" size={"3.6rem"} />
+          <LabelContainer>
+            <UpdateLabel
+              title={"Title"}
+              state={isUpdateState}
+              value={title}
+              fnc={setTitle}
+            />
+            <UpdateLabel
+              title={"Content"}
+              state={isUpdateState}
+              value={content}
+              fnc={setContent}
+            />
+          </LabelContainer>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <DefaultButton onClick={updateHandler}>
+              {isUpdateState ? "제출하기" : "수정하기"}
+            </DefaultButton>
+            {isUpdateState ? (
+              <DefaultButton onClick={() => cancleHandler(data.data)}>
+                취소하기
+              </DefaultButton>
+            ) : null}
+          </div>
+        </>
+      )}
     </div>
-  ) : null;
+  );
 }
 
 export default TodoDetail;
