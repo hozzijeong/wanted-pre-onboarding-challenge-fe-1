@@ -261,9 +261,55 @@
       }),
    ```
 
-3. 적용하지 못한 Skeleton과 Suspense
+3. ~~적용하지 못한 Skeleton과 Suspense
    Loading 상황일 때 향상된 UI를 제공하기 위해 Skeleton과 Suspense를 이용하여 작성하려고 했지만 왜인지 모르게 API 통실할 때 렉이 걸리고 렌더링이 느리게 되는 현상이 나타났습니다. 또한, 원하는 Skeleton은 나오지 않고 그저 제일 처음에 아무 데이터도 입력되지 않는 값으로만 나타나있어서 어느것이 문제인지 알지 못하고 이렇게 끝나게 되었습니다. (TodoList CRUD에 나오는 렉)
-   해당 기능 구현에 대해서는 추후에 알아보고 다시 구현해볼 생각입니다.
+   해당 기능 구현에 대해서는 추후에 알아보고 다시 구현해볼 생각입니다.~~
+   Skeleton 구현 완료했습니다. 주된 문제는 react-query에 initalData로 형태만 맞춰서 설정했던 initialData들이었습니다. Suspense의 실행은 fetching 되는 와중 즉, fetch된 data들의 영향을 받는 컴포넌트가 렌더링 되지 못할때 fallback이 실행되는 것인데, initialData가 초기에 주어지기 때문에 data의 영향을 받는 component가 렌더링 되어집니다. 따라서 fallback이 일어날 필요가 없어졌습니다.
+   이를 해결하기 위해 다음과 같은 수정사항을 거쳤습니다.
+
+   ```typescript
+   /// useGetTodos.tsx
+
+   // 수정 전
+   function useGetTodos() {
+     const token = useGetToken();
+
+     return useQuery(
+       ["todos", "all"],
+       async (): Promise<ITodosResult> => {
+         const response = await getTodosAPI(token);
+         return response.json();
+       },
+       { initialData: initialTodosData, suspense: true },
+     );
+   }
+   // 수정 후
+   function useGetTodos() {
+     const token = useGetToken();
+
+     return useQuery(
+       ["todos", "all"],
+       async (): Promise<ITodosResult> => {
+         const response = await getTodosAPI(token);
+         return response.json();
+       },
+       { suspense: true },
+     );
+   }
+   ```
+
+   추가적으로 Suspense의 경우 자식 컴포넌트 중 fetching 상태인 경우 loading 상황을 외부에 위임하는 것인데, 명확한 위임을 위해 컴포넌트 분리(관삼시 분리)를 했습니다. 관심사 분리를 통해 Home에서는 component들의 집합을 나타내고, 각각 기능에 따른 분리를 했습니다.
+
+   ```typescript
+      //Home.tsx
+
+      // 수정 후
+      ...
+      <Suspense fallback={<TodoListSkeleton />}>
+        <TodoList />
+      </Suspense>
+      ...
+   ```
 
 4. 선언형으로 작성하기
    항상 마음속으로 "선언형으로 작성해야지" 라는 생각을 가지고 코드를 작성하지만, 일단은 기능 구현하기에 바빠서 항상 명령형으로 작성한 뒤 선언형으로 고치기 급급했습니다. 모든 코드를 선언형으로 작성했냐 라는 대답에 확신의 YES를 하지는 못하지만,,, 그래도 리팩토링 과정을 거치면서 그나마 좀 나아지는 것 같았습니다.
