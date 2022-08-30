@@ -18,7 +18,7 @@ function useGetTodos() {
       const response = await getTodosAPI(token);
       return response.json();
     },
-    { initialData: initialTodosData, suspense: true },
+    { suspense: true },
   );
 }
 

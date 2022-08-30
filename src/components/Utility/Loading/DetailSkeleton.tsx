@@ -8,8 +8,12 @@ function DetailSkeleton() {
   return (
     <>
       <TitleSkeleton />
+      <br />
+      <br />
       <InputSkeleton />
+      <br />
       <InputSkeleton />
+      <br />
       <ButtonSkeleton />
     </>
   );

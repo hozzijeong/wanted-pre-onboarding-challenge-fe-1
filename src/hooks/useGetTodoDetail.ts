@@ -5,6 +5,7 @@ import { initialResultData } from "utility/initialData";
 function useGetTodoDetail(id: string, token: string) {
   return useQuery(["todos", id], () => getTodosDetail({ token, id }), {
     initialData: initialResultData,
+    suspense: true,
   });
 }
 

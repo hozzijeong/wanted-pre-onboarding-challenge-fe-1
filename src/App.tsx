@@ -17,7 +17,7 @@ function App() {
     }),
     defaultOptions: { queries: { suspense: true } },
   });
-
+  console.log(1);
   return (
     <QueryClientProvider client={queryClient}>
       <Layout>

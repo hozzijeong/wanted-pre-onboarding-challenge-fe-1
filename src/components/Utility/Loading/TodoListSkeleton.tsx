@@ -5,14 +5,22 @@ function TodoListSkeleton() {
   return (
     <>
       <TitleSkeleton />
+      <br />
       <ButtonSkeleton />
       <br />
       <TitleSkeleton />
+      <br />
       <InputSkeleton />
+      <br />
+
       <InputSkeleton />
+      <br />
+
       <InputSkeleton />
       <hr />
       <TitleSkeleton />
+      <br />
+
       <ContainerSkeleton />
     </>
   );

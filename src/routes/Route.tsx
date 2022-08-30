@@ -1,16 +1,15 @@
-import TodoListSkeleton from "components/Utility/Loading/TodoListSkeleton";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Auth/Login";
 import SignUp from "./Auth/SignUp";
 import NotFound from "./NotFound";
-import Todos from "./Todos/Todo";
+import Home from "./Todos/Home";
 import TodoDetail from "./Todos/TodoDetail";
 
 function URLRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Todos />}>
+        <Route path="/" element={<Home />}>
           <Route path="/details/:id" element={<TodoDetail />} />
         </Route>
 
